@@ -1,0 +1,146 @@
+.app-title {
+    float: left;
+    margin-top: 16px;
+}
+
+.app-title a {
+    text-decoration: none;
+    line-height: 16px;
+    display: inline-block;
+}
+
+.app-title a:hover {
+    text-decoration: none;
+}
+
+.navbar {
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    position: fixed;
+    background-color: #4041A6 !important;
+    height: 50px !important;
+    padding: 0 !important;
+    z-index: 2500;
+}
+
+.ant-layout-header {
+    line-height: 0px !important;
+}
+
+.navbar a {
+    color: hsla(0, 0%, 100%, .7);
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navbar-auth-buttons {
+    float: right;
+    margin-top: 10px;
+}
+
+.navbar-buttons {
+    margin-top: 10px;
+}
+
+.navbar-buttons button, .navbar-buttons a {
+    background: #4041A6;
+    border: none;
+    height: 30px;
+}
+
+.navbar-buttons button span {
+    text-align: center;
+    color: #fff;
+}
+
+.navbar-buttons button:hover {
+    background: #4055A6;
+}
+
+button[id='signup'] {
+    margin-left: 5px !important;
+}
+
+.app-menu {
+    float: right;
+}
+
+.app-menu > li {
+    padding: 0 20px;
+}
+
+.app-menu > li > a {
+    padding: 0 20px;
+    margin: 0 -20px;
+}
+
+.app-menu > li > a > i {
+    margin-right: 0 !important;
+}
+
+.profile-dropdown-menu {
+    min-width: 180px;
+}
+
+.profile-menu .user-full-name-info {
+    font-size: 17px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.profile-menu .username-info {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.dropdown-item {
+    padding: 10px 12px;
+}
+
+.dropdown-item a {
+    padding: 10px 12px;
+    margin: -10px -12px;
+}
+
+.nav-icon {
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .app-title a {
+        font-size: 20px;
+    }
+
+    .app-menu > li {
+        padding: 0 15px;
+    }
+
+    .app-menu > li > a {
+        padding: 0 15px;
+        margin: 0 -15px;
+    }
+}
+
+.header-link-margin {
+    margin-left: 15px;
+}
+
+.shop-name-title a {
+    line-height: 13px;
+    font-size: 21px !important;
+}
+
+.basket-header-button {
+    margin-top: 6px !important;
+    float: right;
+    width: 32px;
+    height: 32px;
+    background: none;
+    background-image: url('../resources/shopBasket.svg');
+    border: none;
+}

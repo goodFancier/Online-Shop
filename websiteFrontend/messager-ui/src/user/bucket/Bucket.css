@@ -1,0 +1,27 @@
+.order-table {
+    margin-top: 50px !important;
+    margin-left: 50px;
+}
+
+.order-panel {
+    margin-top: 50px !important;
+}
+
+.order-button {
+    margin-top: 10px;
+}
+
+.advertisement .ant-card-head-title {
+    text-align: center;
+}
+
+.advertisement img{
+    width: 50%;
+    margin: auto;
+    padding-top: 50px;
+}
+
+.bucket-good-list img {
+    max-height: 100px;
+    width: auto;
+}

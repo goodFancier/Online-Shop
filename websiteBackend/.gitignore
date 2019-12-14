@@ -1,0 +1,67 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/target/classes/com/messager/Controller/ExceptionHandlerController.class
+/target/classes/com/messager/Controller/MessageController.class
+/target/classes/com/messager/Entity/Data.class
+/target/classes/com/messager/Entity/DomainObject.class
+/target/classes/com/messager/Model/ORM/ORMDto.class
+/target/classes/com/messager/Repository/DataRepository.class
+/target/classes/com/messager/Repository/DataRepositoryImpl.class
+/target/classes/com/messager/Repository/MessageRepository.class
+/target/classes/com/messager/Service/DataService.class
+/target/classes/com/messager/Service/UserDataService.class
+/target/classes/com/messager/Utils/Ajax.class
+/target/classes/com/messager/Utils/RestException.class
+/target/classes/com/messager/exception/BadRequestException.class
+/target/classes/com/messager/Controller/ExceptionHandlerController.class
+/target/classes/com/messager/Controller/MessageController.class
+/target/classes/com/messager/Entity/Data.class
+/target/classes/com/messager/Entity/DomainObject.class
+/target/classes/com/messager/Model/ORM/ORMDto.class
+/target/classes/com/messager/Repository/DataRepository.class
+/target/classes/com/messager/Repository/DataRepositoryImpl.class
+/target/classes/com/messager/Repository/MessageRepository.class
+/target/classes/com/messager/Service/DataService.class
+/target/classes/com/messager/Service/UserDataService.class
+/target/classes/com/messager/Utils/Ajax.class
+/target/classes/com/messager/Utils/RestException.class
+/target/classes/com/messager/exception/BadRequestException.class
+/.idea/workspace.xml
+/target/classes/com/messager/Controller/ExceptionHandlerController.class
+/target/classes/com/messager/Controller/MessageController.class
+/target/classes/com/messager/Entity/Data.class
+/target/classes/com/messager/Entity/DomainObject.class
+/target/classes/com/messager/Model/Choice.class
+/target/classes/com/messager/Model/ChoiceVoteCount.class
+/target/classes/com/messager/Model/ORM/ORMDto.class
+/target/classes/com/messager/Model/Poll.class
+/target/classes/com/messager/Model/Vote.class
+/target/classes/com/messager/Repository/DataRepository.class
+/target/classes/com/messager/Repository/DataRepositoryImpl.class
+/target/classes/com/messager/Repository/MessageRepository.class
+/target/classes/com/messager/Repository/PollRepository.class
+/target/classes/com/messager/Repository/VoteRepository.class
+/target/classes/com/messager/Service/DataService.class
+/target/classes/com/messager/Service/UserDataService.class
+/target/classes/com/messager/Utils/Ajax.class
+/target/classes/com/messager/Utils/RestException.class
+/target/classes/com/messager/exception/BadRequestException.class

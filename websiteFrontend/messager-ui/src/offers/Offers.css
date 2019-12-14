@@ -1,0 +1,34 @@
+.ant-carousel{
+    margin: 0 auto;
+    margin-top: 50px !important;
+    width: 50% !important;
+}
+
+.ant-carousel .slick-slide {
+    text-align: center;
+    height: 500px;
+    line-height: 160px;
+    background: #364d79;
+    overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+    color: #fff;
+}
+
+.public-offers-booklet {
+    max-height: 400px;
+    width: auto;
+}
+
+.ant-carousel .board-row img {
+     height: 100%;
+     width: 100%;
+}
+
+.ant-carousel .board-row {
+    width: 100% !important;
+    display: inline-block;
+    height: 500px !important;
+}
+
