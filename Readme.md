@@ -35,7 +35,7 @@
 	```
 
 	The server will start on port 8080.
-	```
+
 5. **Default Roles**
 	
 	The spring boot app uses role based authorization powered by spring security. You need to execute this script.
@@ -63,8 +63,6 @@ Before you can start the server you need to install some dependencies. You can d
 * npm install antd react-router-dom --save 
 * npm install react-app-rewired babel-plugin-import react-app-rewire-less --save-dev
 * npm install --save react-autocomplete
-
-If something goes wrong and the server still does not start, then just download node_modules from the link: 
 
 Finally, by executing the following commands you can start the server
 
