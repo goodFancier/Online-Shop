@@ -1,8 +1,10 @@
 package com.messager.model;
 
 import com.messager.model.audit.DateAudit;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Good extends DateAudit

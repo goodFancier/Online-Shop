@@ -1,7 +1,7 @@
-package com.messager.Controller;
+package com.messager.controller;
 
 import com.messager.model.User;
-import com.messager.Repository.UserRepository;
+import com.messager.repository.UserRepository;
 import com.messager.exception.ResourceNotFoundException;
 import com.messager.payload.*;
 import com.messager.security.CurrentUser;

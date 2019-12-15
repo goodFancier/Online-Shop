@@ -1,4 +1,4 @@
-package com.messager.Repository;
+package com.messager.repository;
 
 import com.messager.model.Good;
 import org.springframework.data.jpa.repository.JpaRepository;

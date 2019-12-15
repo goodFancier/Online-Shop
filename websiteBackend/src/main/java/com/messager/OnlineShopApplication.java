@@ -15,18 +15,18 @@ import java.io.IOException;
 @SpringBootApplication
 @ComponentScan(basePackages = {
         "com.messager.config",
-        "com.messager.Controller",
+        "com.messager.controller",
         "com.messager.model",
         "com.messager.exception",
-        "com.messager.Repository",
+        "com.messager.repository",
         "com.messager.security",
         "com.messager.utils"
 })
-public class Messager
+public class OnlineShopApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(new Class<?>[]{Messager.class, JpaConfig.class}, args);
+        SpringApplication.run(new Class<?>[]{OnlineShopApplication.class, JpaConfig.class}, args);
     }
 
     @Bean

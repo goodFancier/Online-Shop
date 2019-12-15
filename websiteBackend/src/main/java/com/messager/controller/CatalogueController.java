@@ -1,16 +1,13 @@
-package com.messager.Controller;
+package com.messager.controller;
 
 import com.messager.model.Good;
-import com.messager.Repository.GoodsRepository;
+import com.messager.repository.GoodsRepository;
 import com.messager.utils.GoodUtils;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

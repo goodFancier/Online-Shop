@@ -1,10 +1,9 @@
-package com.messager.Controller;
+package com.messager.controller;
 
-import com.messager.Repository.GoodsRepository;
+import com.messager.repository.GoodsRepository;
 import com.messager.model.Good;
 import com.messager.model.UserBucket;
-import com.messager.Repository.UserBucketRepository;
-import com.messager.Repository.UserRepository;
+import com.messager.repository.UserBucketRepository;
 import com.messager.utils.GoodUtils;
 import com.messager.utils.UserBucketUtils;
 import org.slf4j.Logger;
@@ -45,6 +44,8 @@ public class UserBucketController
     public Integer getBucketTotalSum(@RequestParam(value = "userId") String userId)
     {
         UserBucket userBucket = userBucketUtils.getUserBucketByUserId(userId);
+        if (userBucket == null || userBucket.getBucketGoods() == null || userBucket.getBucketGoods().isEmpty())
+            return 0;
         return userBucket.getBucketGoods().stream().map(Good::getCurrentPrice)
                 .map(Integer::valueOf)
                 .reduce(0, Integer::sum);
@@ -62,7 +63,10 @@ public class UserBucketController
     @GetMapping("/getUserGoods")
     public List<Good> getUserGoods(@RequestParam(value = "userId") String userId)
     {
-        List<Good> goodList = userBucketUtils.getUserBucketByUserId(userId).getBucketGoods();
+        UserBucket userBucket = userBucketUtils.getUserBucketByUserId(userId);
+        if (userBucket == null)
+            return null;
+        List<Good> goodList = userBucket.getBucketGoods();
         goodUtils.initGoodImages(goodList);
         return goodList;
     }

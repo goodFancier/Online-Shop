@@ -1,6 +1,6 @@
-package com.messager.Controller;
+package com.messager.controller;
 
-import com.messager.Repository.OffersRepository;
+import com.messager.repository.OffersRepository;
 import com.messager.model.Offer;
 import com.messager.utils.OfferUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.messager.security;
 
 import com.messager.model.User;
-import com.messager.Repository.UserRepository;
+import com.messager.repository.UserRepository;
 import com.messager.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

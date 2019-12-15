@@ -1,6 +1,6 @@
 package com.messager.config;
 
-import com.messager.Messager;
+import com.messager.OnlineShopApplication;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +20,7 @@ import java.util.Properties;
 @Configuration
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackageClasses = Messager.class)
+@EnableJpaRepositories(basePackageClasses = OnlineShopApplication.class)
 public class JpaConfig implements TransactionManagementConfigurer
 {
 

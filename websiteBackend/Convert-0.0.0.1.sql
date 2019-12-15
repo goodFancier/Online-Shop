@@ -6,7 +6,7 @@ SET NAMES 'utf8';
 --
 -- Установка базы данных по умолчанию
 --
-USE messager;
+USE onlineshop;
 
 --
 -- Создать таблицу `users`
@@ -54,6 +54,7 @@ CREATE TABLE userbucket (
 )
 ENGINE = INNODB,
 AUTO_INCREMENT = 2,
+AVG_ROW_LENGTH = 16384,
 CHARACTER SET utf8,
 COLLATE utf8_general_ci;
 
@@ -63,38 +64,6 @@ COLLATE utf8_general_ci;
 ALTER TABLE userbucket
 ADD CONSTRAINT FKgoajfs2flbbq9rsw9yby1o424 FOREIGN KEY (user_id)
 REFERENCES users (id);
-
---
--- Создать таблицу `messages`
---
-CREATE TABLE messages (
-  id bigint(20) NOT NULL AUTO_INCREMENT,
-  createdAt datetime DEFAULT NULL,
-  updatedAt datetime DEFAULT NULL,
-  messageRecipient bigint(20) DEFAULT NULL,
-  messageSender bigint(20) DEFAULT NULL,
-  messageText varchar(255) DEFAULT NULL,
-  PRIMARY KEY (id)
-)
-ENGINE = INNODB,
-AUTO_INCREMENT = 4,
-AVG_ROW_LENGTH = 16384,
-CHARACTER SET utf8,
-COLLATE utf8_general_ci;
-
---
--- Создать внешний ключ
---
-ALTER TABLE messages
-ADD CONSTRAINT FK_messages_messageRecipient FOREIGN KEY (messageRecipient)
-REFERENCES users (id) ON DELETE NO ACTION;
-
---
--- Создать внешний ключ
---
-ALTER TABLE messages
-ADD CONSTRAINT FK_messages_messageSender FOREIGN KEY (messageSender)
-REFERENCES users (id) ON DELETE NO ACTION;
 
 --
 -- Создать таблицу `roles`
@@ -155,11 +124,12 @@ CREATE TABLE good (
   currentPrice varchar(255) DEFAULT NULL,
   name varchar(255) DEFAULT NULL,
   oldPrice varchar(255) DEFAULT NULL,
+  image longblob DEFAULT NULL,
   PRIMARY KEY (id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 3,
-AVG_ROW_LENGTH = 8192,
+AUTO_INCREMENT = 10,
+AVG_ROW_LENGTH = 12743,
 CHARACTER SET utf8,
 COLLATE utf8_general_ci;
 
@@ -171,7 +141,7 @@ CREATE TABLE userbucket_goods (
   good_id bigint(20) NOT NULL
 )
 ENGINE = INNODB,
-AVG_ROW_LENGTH = 8192,
+AVG_ROW_LENGTH = 4096,
 CHARACTER SET utf8,
 COLLATE utf8_general_ci;
 
@@ -188,3 +158,17 @@ REFERENCES userbucket (id);
 ALTER TABLE userbucket_goods
 ADD CONSTRAINT FKqbu6s8chlltqaxtt5r30sp47n FOREIGN KEY (good_id)
 REFERENCES good (id);
+
+--
+-- Создать таблицу `offer`
+--
+CREATE TABLE offer (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  image tinyblob DEFAULT NULL,
+  PRIMARY KEY (id)
+)
+ENGINE = INNODB,
+AUTO_INCREMENT = 4,
+AVG_ROW_LENGTH = 5461,
+CHARACTER SET utf8,
+COLLATE utf8_general_ci;

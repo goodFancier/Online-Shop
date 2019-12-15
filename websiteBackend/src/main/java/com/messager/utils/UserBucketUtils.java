@@ -1,8 +1,8 @@
 package com.messager.utils;
 
-import com.messager.Controller.UserBucketController;
-import com.messager.Repository.UserBucketRepository;
-import com.messager.Repository.UserRepository;
+import com.messager.controller.UserBucketController;
+import com.messager.repository.UserBucketRepository;
+import com.messager.repository.UserRepository;
 import com.messager.model.User;
 import com.messager.model.UserBucket;
 import org.slf4j.Logger;
@@ -25,27 +25,20 @@ public class UserBucketUtils
 
     public UserBucket getUserBucketByUserId(String userId)
     {
-        UserBucket userBucket;
         Optional<User> user = userRepository.findById(Long.valueOf(userId));
         if (user.isPresent())
         {
             boolean isUserBucketPresent = userBucketRepository.findByUser(user.get()).isPresent();
             if (isUserBucketPresent)
             {
-                userBucket = userBucketRepository.findByUser(user.get()).get();
-            } else
-            {
-                logger.info("Корзины пользователя {} не найдено", userId);
-                logger.info("Корзины не найдено. Создаем новую для пользователя");
-                userBucket = new UserBucket();
-                userBucket.setUser(user.get());
-                userBucketRepository.save(userBucket);
+                return userBucketRepository.findByUser(user.get()).get();
             }
+
         } else
         {
             logger.error("не удалось получить пользователя по id");
             return null;
         }
-        return userBucket;
+        return null;
     }
 }

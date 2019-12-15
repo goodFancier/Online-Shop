@@ -1,10 +1,12 @@
-package com.messager.Controller;
+package com.messager.controller;
 
 import com.messager.model.Role;
 import com.messager.model.RoleName;
 import com.messager.model.User;
-import com.messager.Repository.RoleRepository;
-import com.messager.Repository.UserRepository;
+import com.messager.model.UserBucket;
+import com.messager.repository.RoleRepository;
+import com.messager.repository.UserBucketRepository;
+import com.messager.repository.UserRepository;
 import com.messager.exception.AppException;
 import com.messager.payload.ApiResponse;
 import com.messager.payload.JwtAuthenticationResponse;
@@ -38,6 +40,9 @@ public class AuthController
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserBucketRepository userBucketRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -89,6 +94,9 @@ public class AuthController
                 .orElseThrow(() -> new AppException("User Role not set."));
         user.setRoles(Collections.singleton(userRole));
         User result = userRepository.save(user);
+        UserBucket userBucket = new UserBucket();
+        userBucket.setUser(user);
+        userBucketRepository.save(userBucket);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
