@@ -10,12 +10,13 @@ import java.util.List;
 @Component
 public class GoodUtils
 {
-    public void initGoodImages(List<Good> goodList)
+    public List<Good> initGoodImages(List<Good> goodList)
     {
         for (Good good : goodList)
         {
             if (good.getImage() != null)
                 good.setImageUrl(new String(Base64.decodeBase64(good.getImage()), StandardCharsets.UTF_8));
         }
+        return goodList;
     }
 }

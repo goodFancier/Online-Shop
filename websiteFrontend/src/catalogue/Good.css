@@ -1,0 +1,21 @@
+.good-panel {
+    margin: 0 auto;
+    margin-top: 50px !important;
+    width: 75% !important;
+    height: 500px;
+    border: 1px solid !important;
+}
+
+.good-panel-good-img {
+    padding: 100px;
+    width: auto;
+    max-height: 100%;
+}
+
+.imageBorder {
+    height: 400px;
+}
+
+.good-title {
+    font-size: 32px;
+}

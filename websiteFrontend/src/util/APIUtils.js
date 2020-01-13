@@ -135,3 +135,10 @@ export function loadPublicOffers() {
     });
 }
 
+export function getGoodById(goodId){
+    return request({
+        url: API_BASE_URL + "/getGoodById?goodId=" + goodId,
+        method: 'GET'
+    });
+}
+

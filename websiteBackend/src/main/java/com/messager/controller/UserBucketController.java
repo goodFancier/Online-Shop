@@ -66,8 +66,6 @@ public class UserBucketController
         UserBucket userBucket = userBucketUtils.getUserBucketByUserId(userId);
         if (userBucket == null)
             return null;
-        List<Good> goodList = userBucket.getBucketGoods();
-        goodUtils.initGoodImages(goodList);
-        return goodList;
+        return goodUtils.initGoodImages(userBucket.getBucketGoods());
     }
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './Catalogue.css';
-import {Table, Card, Icon, List, Button} from 'antd';
+import {Table, Card, Icon, List, Button, notification} from 'antd';
 import {getCatalogueOfGoods, addToBucket} from "../util/APIUtils";
 import {formatDate} from "../util/Helpers";
 
@@ -47,6 +47,11 @@ class Catalogue extends Component {
         }).catch(error => {
         });
     }
+S
+    redirectToGoodPage(event, goodId) {
+        event.preventDefault();
+        this.props.history.push(`/good/${goodId}`);
+    }
 
     render() {
 
@@ -60,7 +65,7 @@ class Catalogue extends Component {
                       >
                           <Card className="advertisement" hoverable
                                 style={{width: 240}}
-                                cover={<img alt="example" align="middle"
+                                cover={<img alt="example" align="middle" onClick={(e) => this.redirectToGoodPage(e, item.id)}
                                             src={item.imageUrl}/>}
                                 style={{width: 300, marginTop: 16}}
                                 actions={[
@@ -68,7 +73,8 @@ class Catalogue extends Component {
                                         корзину</button>
                                 ]}
                           >
-                              <Meta title={item.name} description={<div>Цена: {item.currentPrice}$</div>}/>
+                              <Meta title={item.name} onClick={(e) => this.redirectToGoodPage(e, item.id)}
+                                    description={<div>Цена: {item.currentPrice}$</div>}/>
                           </Card>
                       </List.Item>
                   )}

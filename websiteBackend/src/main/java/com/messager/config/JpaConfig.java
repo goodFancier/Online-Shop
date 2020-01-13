@@ -36,6 +36,8 @@ public class JpaConfig implements TransactionManagementConfigurer
     private String dialect;
     @Value("${hibernate.hbm2ddl.auto}")
     private String hbm2ddlAuto;
+    @Value("${spring.datasource.maximumPoolSize}")
+    private int maximumPoolSize;
 
     @Bean
     public HikariDataSource configureDataSource()
@@ -45,7 +47,10 @@ public class JpaConfig implements TransactionManagementConfigurer
         config.setJdbcUrl(url);
         config.setUsername(username);
         config.setPassword(password);
-
+        config.setMaximumPoolSize(maximumPoolSize);
+        config.setConnectionTimeout(60000);
+        config.setIdleTimeout(60000);
+        config.setLeakDetectionThreshold(60000);
         return new HikariDataSource(config);
     }
 

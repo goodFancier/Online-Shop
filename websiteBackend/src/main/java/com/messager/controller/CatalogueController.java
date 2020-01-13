@@ -6,9 +6,11 @@ import com.messager.utils.GoodUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -25,9 +27,7 @@ public class CatalogueController
     @GetMapping("/getCatalogueOfGoods")
     public List<Good> getCatalogueOfGoods()
     {
-        List<Good> goodList = goodsRepository.findAll();
-        goodUtils.initGoodImages(goodList);
-        return goodList;
+        return goodUtils.initGoodImages(goodsRepository.findAll());
     }
 
     @GetMapping("/getRandomGoods")
@@ -42,8 +42,13 @@ public class CatalogueController
         List<Good> randomList = new ArrayList<>();
         randomList.add(goodList.get(randomIndex1));
         randomList.add(goodList.get(randomIndex2));
-        goodUtils.initGoodImages(randomList);
-        return randomList;
+        return goodUtils.initGoodImages(randomList);
+    }
+
+    @GetMapping("/getGoodById")
+    public Good getGoodById(@RequestParam(value = "goodId") String goodId)
+    {
+        return goodUtils.initGoodImages(Arrays.asList(goodsRepository.findGoodById(Long.valueOf(goodId)))).get(0);
     }
 
 
