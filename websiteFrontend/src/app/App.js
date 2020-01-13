@@ -3,7 +3,7 @@ import './App.css';
 import {
     Route,
     withRouter,
-    Switch
+    Switch, Redirect
 } from 'react-router-dom';
 
 import {getCurrentUser} from '../util/APIUtils';
@@ -20,6 +20,7 @@ import LoadingIndicator from '../common/LoadingIndicator';
 
 import {Layout, notification} from 'antd';
 import Offers from "../offers/Offers";
+import Good from "../catalogue/Good";
 
 const {Content} = Layout;
 
@@ -120,6 +121,11 @@ class App extends Component {
                             <Route path="/offers"
                                    render={(props) => <Offers  {...props} />}>
                             </Route>
+                            <Route path="/good/:goodId"
+                                   render={(props) => <Good {...props} />}>
+                            </Route>
+                            <Route exact path="/"
+                                   component={() => (<Redirect to="/catalogue"/>)}/>
                             <Route component={NotFound}/>
                         </Switch>
                     </div>
