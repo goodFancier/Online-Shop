@@ -47,7 +47,7 @@ class Catalogue extends Component {
         }).catch(error => {
         });
     }
-S
+
     redirectToGoodPage(event, goodId) {
         event.preventDefault();
         this.props.history.push(`/good/${goodId}`);

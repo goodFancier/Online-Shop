@@ -122,7 +122,7 @@ class App extends Component {
                                    render={(props) => <Offers  {...props} />}>
                             </Route>
                             <Route path="/good/:goodId"
-                                   render={(props) => <Good {...props} />}>
+                                   render={(props) => <Good currentUser={this.state.currentUser} {...props} />}>
                             </Route>
                             <Route exact path="/"
                                    component={() => (<Redirect to="/catalogue"/>)}/>

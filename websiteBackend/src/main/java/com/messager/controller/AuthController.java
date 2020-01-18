@@ -1,7 +1,7 @@
 package com.messager.controller;
 
 import com.messager.model.Role;
-import com.messager.model.RoleName;
+import com.messager.model.enumdto.RoleName;
 import com.messager.model.User;
 import com.messager.model.UserBucket;
 import com.messager.repository.RoleRepository;

@@ -88,7 +88,7 @@ class Bucket extends Component {
 
         return (
             <Row type="flex" justify="space-between">
-                <Col span={18} className="order-table">
+                <Col span={18}>
                     <h2>Моя корзина</h2>
                     < Table className="bucket-good-list"
                         rowSelection={rowSelection}

@@ -1,5 +1,6 @@
 package com.messager.model;
 
+import com.messager.model.enumdto.RoleName;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;

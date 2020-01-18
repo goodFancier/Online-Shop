@@ -1,7 +1,7 @@
 package com.messager.repository;
 
 import com.messager.model.Role;
-import com.messager.model.RoleName;
+import com.messager.model.enumdto.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
