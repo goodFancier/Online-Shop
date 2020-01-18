@@ -91,7 +91,7 @@ class AppHeader extends Component {
 
         return (
             <Header className="navbar">
-                <div className="container">
+                <div className="header-container">
                     <div className="app-title shop-name-title">
                         <Link to="/catalogue">Онлайн магазин</Link>
                     </div>

@@ -1,4 +1,4 @@
-package com.messager.model;
+package com.messager.model.enumdto;
 
 public enum  RoleName {
     ROLE_USER,
