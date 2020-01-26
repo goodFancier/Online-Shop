@@ -50,11 +50,23 @@ class Good extends Component {
         this.loadGoodCard(goodId);
     }
 
+    redirectToLogin = () => {
+        this.props.history.push("/login");
+    }
+
     addToBucketEvent(event, goodId) {
         event.preventDefault();
-        addToBucket(this.props.currentUser.id, goodId).then(response => {
-        }).catch(error => {
-        });
+        if (this.props.currentUser == null) {
+            notification.error({
+                message: 'Online shop',
+                description: 'Необходимо выполнить вход в личный кабинет!'
+            })
+            this.redirectToLogin();
+        }
+        else
+            addToBucket(this.props.currentUser.id, goodId).then(response => {
+            }).catch(error => {
+            });
     }
 
     setButtonId(event, buttonId) {
@@ -69,13 +81,13 @@ class Good extends Component {
                     buttonId === 0 ? (<div id="description" className="good-description">
                         {this.state.good.description}
                     </div>) : this.state.buttonId === 1 ? (<div id="characteristics">
-                        <Descriptions bordered>
+                        <Descriptions bordered column={{xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1}}>
                             <Descriptions.Item label="Производитель"
-                                               span={3} xs={1}>{this.state.good.producer}</Descriptions.Item>
+                            >{this.state.good.producer}</Descriptions.Item>
                             <Descriptions.Item label="Гарантия"
-                                               span={3} xs={1}>{this.state.good.guaranteeTime}</Descriptions.Item>
+                            >{this.state.good.guaranteeTime}</Descriptions.Item>
                             <Descriptions.Item label="Год выпуска"
-                                               span={3} xs={1}>{this.state.good.yearOfProduced}</Descriptions.Item>
+                            >{this.state.good.yearOfProduced}</Descriptions.Item>
                             <Descriptions.Item label="Возможность обмена" span={3} xs={1}>
                                 {this.state.good.isChangeable}
                             </Descriptions.Item>
@@ -103,18 +115,17 @@ class Good extends Component {
                         this.state.good != null ? (
                             <div className="good-panel-div">
                                 <Row>
-                                    <Col xxl={22} sm={18} md={22} xs={18}>
+                                    <Col xxl={24} sm={24} md={24} xs={24}>
                                         <b className="good-title">{this.state.good.name}</b>
                                     </Col>
                                 </Row>
                                 <Row type="flex">
-                                    <Col xxl={14} sm={22} md={13} xs={22} className="good-image">
+                                    <Col xxl={18} lg={15} sm={24} md={14} xs={24} className="good-image">
                                         <img className="good-panel-good-img" alt="example" align="middle"
                                              src={this.state.good.imageUrl}/>
                                     </Col>
-                                    <Col xxl={8} sm={22} md={8} xs={22} className="price-label">
-                                        <Card className="advertisement good-card-actions" hoverable
-                                              style={{width: 300}}
+                                    <Col xxl={6} lg={9} sm={24} md={10} xs={24} className="price-label">
+                                        <Card className="advertisement good-card-actions good-add-to-bucket" hoverable
                                               actions={[
                                                   <button className="good-card-buy-button"
                                                           onClick={(e) => this.addToBucketEvent(e, this.state.good.id)}>Добавить
@@ -148,7 +159,7 @@ class Good extends Component {
                         ) : null
                     }
                 </div>
-                <div className="good-panel additionalInfo">
+                <div className="additionalInfo">
                     {
                         this.state.good != null ? (
                             this.showAdditionalInfo(this.state.good.id, this.state.buttonId)
