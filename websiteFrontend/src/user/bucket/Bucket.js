@@ -3,6 +3,7 @@ import './Bucket.css';
 import {Table, Col, Row, Card, Button} from 'antd';
 import {deleteFromUserBucket, getUserBucketGoods, getBucketTotalSum, getRandomGoods} from "../../util/APIUtils";
 import {formatDate} from "../../util/Helpers";
+import {Link} from "react-router-dom";
 
 const {Column} = Table;
 const {Meta} = Card;
@@ -75,13 +76,15 @@ class Bucket extends Component {
     initRandomGoods() {
         getRandomGoods().then(response => {
             this.setState({
-                randomGoodName1: response[0].name,
-                randomGoodName2: response[1].name,
-                randomGoodImage1: response[0].imageUrl,
-                randomGoodImage2: response[1].imageUrl
+                randomGoods: response
             })
         }).catch(error => {
         });
+    }
+
+    redirectToGoodPage(event, goodId) {
+        event.preventDefault();
+        this.props.history.push(`/good/${goodId}`);
     }
 
     render() {
@@ -91,8 +94,8 @@ class Bucket extends Component {
                 <Col span={18}>
                     <h2>Моя корзина</h2>
                     < Table className="bucket-good-list"
-                        rowSelection={rowSelection}
-                        dataSource={this.state.userGoods}
+                            rowSelection={rowSelection}
+                            dataSource={this.state.userGoods}
                     >
                         <Column title="Наименование товара" dataIndex="name" key="name"/>
                         <Column title="Стоимость" dataIndex="currentPrice" key="currentPrice"/>
@@ -120,36 +123,44 @@ class Bucket extends Component {
                                 Сделать заказ
                             </Button>
                         </Card>
+                        <div> {
+                            this.state.randomGoods[0] != null ? (
+                                <Card className="advertisement" hoverable title="Может быть интересно"
+                                      style={{width: 240}}
+                                      cover={<img alt="example" align="middle"
+                                                  src={this.state.randomGoods[0].imageUrl}/>}
+                                      style={{width: 300, marginTop: 16}}
+                                      actions={[
+                                          <div onClick={(e) => this.redirectToGoodPage(e, this.state.randomGoods[0].id)}>
+                                              <button>Посмотреть предложение</button>
+                                          </div>
+                                      ]}
+                                >
+                                    <Meta title={this.state.randomGoods[0].name}
+                                          description={this.state.randomGoods[0].name}/>
+                                </Card>
 
-                        <Card className="advertisement" hoverable title="Может быть интересно"
-                              style={{width: 240}}
-                              cover={<img alt="example" align="middle"
-                                          src={this.state.randomGoodImage1}/>}
-                              style={{width: 300, marginTop: 16}}
-                              actions={[
-                                  <div onClick={this.redirectToGood}>
-                                      <button>Посмотреть предложение</button>
-                                  </div>
-                              ]}
-                        >
-                            <Meta title={this.state.randomGoodName1}
-                                  description={this.state.randomGoodName1}/>
-                        </Card>
+                            ) : null
+                        }
+                        </div>
 
-                        <Card className="advertisement" hoverable title="Может быть интересно"
-                              style={{width: 240}}
-                              cover={<img alt="example" align="middle"
-                                          src={this.state.randomGoodImage2}/>}
-                              style={{width: 300, marginTop: 16}}
-                              actions={[
-                                  <div onClick={this.redirectToGood}>
-                                      <button>Посмотреть предложение</button>
-                                  </div>
-                              ]}
-                        >
-                            <Meta title={this.state.randomGoodName2}
-                                  description={this.state.randomGoodName2}/>
-                        </Card>
+                        <div> {
+                            this.state.randomGoods[1] != null ? (
+                                < Card className="advertisement" hoverable title="Может быть интересно"
+                                       style={{width: 240}}
+                                       cover={<img alt="example" align="middle"
+                                                   src={this.state.randomGoods[1].imageUrl}/>}
+                                       style={{width: 300, marginTop: 16}}
+                                       actions={[
+                                           <div onClick={(e) => this.redirectToGoodPage(e, this.state.randomGoods[1].id)}>
+                                               <button>Посмотреть предложение</button>
+                                           </div>
+                                       ]}
+                                >
+                                    <Meta title={this.state.randomGoods[1].name}
+                                          description={this.state.randomGoods[1].name}/>
+                                </Card>) : null
+                        }</div>
                     </div>
                 </Col>
             </Row>
