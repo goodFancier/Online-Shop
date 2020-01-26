@@ -30,7 +30,7 @@ public class Good extends DateAudit
     @Column
     private String description;
 
-        private String guaranteeTime;
+    private String guaranteeTime;
 
     private String yearOfProduced;
 
