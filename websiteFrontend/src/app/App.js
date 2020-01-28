@@ -21,6 +21,7 @@ import LoadingIndicator from '../common/LoadingIndicator';
 import {Layout, notification} from 'antd';
 import Offers from "../offers/Offers";
 import Good from "../catalogue/Good";
+import OfferPage from "../offers/OfferPage";
 
 const {Content} = Layout;
 
@@ -124,6 +125,8 @@ class App extends Component {
                             <Route path="/good/:goodId"
                                    render={(props) => <Good currentUser={this.state.currentUser} {...props} />}>
                             </Route>
+                            <Route path="/offer/:offerId"
+                                   render={(props) => <OfferPage currentUser={this.state.currentUser} {...props} />}/>
                             <Route exact path="/"
                                    component={() => (<Redirect to="/catalogue"/>)}/>
                             <Route component={NotFound}/>

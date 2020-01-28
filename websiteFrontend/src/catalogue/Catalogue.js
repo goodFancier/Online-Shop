@@ -57,7 +57,12 @@ class Catalogue extends Component {
 
         return (
             <List className="catalogue-good-list"
-                  grid={{gutter: 1, column: 4}}
+                  grid={{gutter: 1,  xs: 1,
+                      sm: 1,
+                      md: 2,
+                      lg: 2,
+                      xl: 3,
+                      xxl: 4,}}
                   dataSource={this.state.goods}
                   renderItem={item => (
                       <List.Item
