@@ -135,7 +135,14 @@ export function loadPublicOffers() {
     });
 }
 
-export function getGoodById(goodId){
+export function getOfferById(offerId) {
+    return request({
+        url: API_BASE_URL + "/getOfferById?offerId=" + offerId,
+        method: 'GET'
+    });
+}
+
+export function getGoodById(goodId) {
     return request({
         url: API_BASE_URL + "/getGoodById?goodId=" + goodId,
         method: 'GET'
