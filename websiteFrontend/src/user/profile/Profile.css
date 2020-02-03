@@ -7,10 +7,14 @@
 }
 
 .user-avatar-circle {
-    width: 120px;
-    height: 120px;
+    width: 120px !important;
+    height: 120px !important;
     border-radius: 60px;
     line-height: 60px;
+}
+
+.user-avatar-circle img{
+    object-fit: contain !important;
 }
 
 .user-avatar-circle > * {

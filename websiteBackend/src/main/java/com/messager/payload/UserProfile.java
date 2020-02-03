@@ -8,6 +8,7 @@ public class UserProfile
     private String username;
     private String name;
     private Instant joinedAt;
+    private String avatarImgUrl;
 
     public UserProfile(Long id, String username, String name, Instant joinedAt)
     {
@@ -55,5 +56,15 @@ public class UserProfile
     public void setJoinedAt(Instant joinedAt)
     {
         this.joinedAt = joinedAt;
+    }
+
+    public String getAvatarImgUrl()
+    {
+        return avatarImgUrl;
+    }
+
+    public void setAvatarImgUrl(String avatarImgUrl)
+    {
+        this.avatarImgUrl = avatarImgUrl;
     }
 }

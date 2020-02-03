@@ -43,6 +43,9 @@ public class User extends DateAudit
     @Size(max = 100)
     private String password;
 
+    @Lob
+    private byte[] avatar;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -106,5 +109,15 @@ public class User extends DateAudit
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public byte[] getAvatar()
+    {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar)
+    {
+        this.avatar = avatar;
     }
 }

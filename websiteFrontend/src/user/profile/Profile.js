@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getUserProfile } from '../../util/APIUtils';
 import { Avatar, Tabs } from 'antd';
 import { getAvatarColor } from '../../util/Colors';
-import { formatDate } from '../../util/Helpers';
+import { formatFullDate } from '../../util/Helpers';
 import LoadingIndicator  from '../../common/LoadingIndicator';
 import './Profile.css';
 import NotFound from '../../common/NotFound';
@@ -45,7 +45,7 @@ class Profile extends Component {
             }
         });        
     }
-      
+
     componentDidMount() {
         const username = this.props.match.params.username;
         this.loadUserProfile(username);
@@ -81,15 +81,14 @@ class Profile extends Component {
                         <div className="user-profile">
                             <div className="user-details">
                                 <div className="user-avatar">
-                                    <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.name)}}>
-                                        {this.state.user.name[0].toUpperCase()}
+                                    <Avatar className="user-avatar-circle" src={this.state.user.avatarImgUrl}>
                                     </Avatar>
                                 </div>
                                 <div className="user-summary">
                                     <div className="full-name">{this.state.user.name}</div>
                                     <div className="username">@{this.state.user.username}</div>
                                     <div className="user-joined">
-                                        Joined {formatDate(this.state.user.joinedAt)}
+                                        Зарегистрирован {formatFullDate(this.state.user.joinedAt.epochSecond)}
                                     </div>
                                 </div>
                             </div>
