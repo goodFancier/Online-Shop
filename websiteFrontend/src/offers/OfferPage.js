@@ -3,7 +3,7 @@ import './OfferPage.css';
 import {Table, Card, Row, Col, List} from 'antd';
 import NotFound from "../common/NotFound";
 import ServerError from "../common/ServerError";
-import {getOfferById} from "../util/APIUtils";
+import {addToBucket, getOfferById} from "../util/APIUtils";
 import {toOfferDate} from "../util/Helpers";
 
 
@@ -51,6 +51,13 @@ class OfferPage extends Component {
     redirectToGoodPage(event, goodId) {
         event.preventDefault();
         this.props.history.push(`/good/${goodId}`);
+    }
+
+    addToBucketEvent(event, goodId) {
+        event.preventDefault();
+        addToBucket(this.props.currentUser.id, goodId).then(response => {
+        }).catch(error => {
+        });
     }
 
     render() {
