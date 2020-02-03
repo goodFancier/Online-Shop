@@ -6,6 +6,7 @@ import com.messager.exception.ResourceNotFoundException;
 import com.messager.payload.*;
 import com.messager.security.CurrentUser;
 import com.messager.security.UserPrincipal;
+import com.messager.utils.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class UserController
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserUtils userUtils;
 
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -66,7 +70,7 @@ public class UserController
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
         UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getCreatedAt());
-
+        userUtils.initUserAvatar(userProfile, user);
         return userProfile;
     }
 }

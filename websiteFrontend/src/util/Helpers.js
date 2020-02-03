@@ -14,6 +14,23 @@ export function formatDate(dateString) {
     return day + ' ' + monthNames[monthIndex];
 }
 
+export function formatFullDate(dateString) {
+    const date = new Date(dateString);
+
+    const monthNames = [
+        "Января", "Февраля", "Марта",
+        "Апреля", "Мая", "Июня", "Июля",
+        "Августа", "Сентября", "Октября",
+        "Ноября", "Декабря"
+    ];
+
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}
+
 export function toOfferDate(dateString) {
     const date = new Date(dateString);
 
