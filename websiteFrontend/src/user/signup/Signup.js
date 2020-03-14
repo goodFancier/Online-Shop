@@ -62,13 +62,13 @@ class Signup extends Component {
         .then(response => {
             notification.success({
                 message: 'Online shop',
-                description: "Thank you! You're successfully registered. Please Login to continue!",
+                description: "Спасибо! Вы были успешно зарегистрированы. Пожалуйста выполните вход чтобы продолжить!",
             });          
             this.props.history.push("/login");
         }).catch(error => {
             notification.error({
                 message: 'Online shop',
-                description: error.message || 'Sorry! Something went wrong. Please try again!'
+                description: error.message || 'Извините! Что-то пошло не так. Пожалуйста, попробуйте ещё ращ!'
             });
         });
     }
@@ -84,22 +84,22 @@ class Signup extends Component {
     render() {
         return (
             <div className="signup-container">
-                <h1 className="page-title">Sign Up</h1>
+                <h1 className="page-title">Регистрация</h1>
                 <div className="signup-content">
                     <Form onSubmit={this.handleSubmit} className="signup-form">
                         <FormItem
-                            label="Full Name"
+                            label="Полное имя"
                             validateStatus={this.state.name.validateStatus}
                             help={this.state.name.errorMsg}>
                             <Input
                                 size="large"
                                 name="name"
                                 autoComplete="off"
-                                placeholder="Your full name"
+                                placeholder="Введите ваше полное имя(имя + фамилия)"
                                 value={this.state.name.value} 
                                 onChange={(event) => this.handleInputChange(event, this.validateName)} />    
                         </FormItem>
-                        <FormItem label="Username"
+                        <FormItem label="Логин"
                             hasFeedback
                             validateStatus={this.state.username.validateStatus}
                             help={this.state.username.errorMsg}>
@@ -107,7 +107,7 @@ class Signup extends Component {
                                 size="large"
                                 name="username" 
                                 autoComplete="off"
-                                placeholder="A unique username"
+                                placeholder="Придумайте уникальный логин"
                                 value={this.state.username.value} 
                                 onBlur={this.validateUsernameAvailability}
                                 onChange={(event) => this.handleInputChange(event, this.validateUsername)} />    
@@ -122,13 +122,13 @@ class Signup extends Component {
                                 name="email" 
                                 type="email" 
                                 autoComplete="off"
-                                placeholder="Your email"
+                                placeholder="Ваш email"
                                 value={this.state.email.value} 
                                 onBlur={this.validateEmailAvailability}
                                 onChange={(event) => this.handleInputChange(event, this.validateEmail)} />    
                         </FormItem>
                         <FormItem 
-                            label="Password"
+                            label="Пароль"
                             validateStatus={this.state.password.validateStatus}
                             help={this.state.password.errorMsg}>
                             <Input 
@@ -136,7 +136,7 @@ class Signup extends Component {
                                 name="password" 
                                 type="password"
                                 autoComplete="off"
-                                placeholder="A password between 6 to 20 characters" 
+                                placeholder="Пароль не менее 6 символов"
                                 value={this.state.password.value} 
                                 onChange={(event) => this.handleInputChange(event, this.validatePassword)} />    
                         </FormItem>
@@ -145,8 +145,8 @@ class Signup extends Component {
                                 htmlType="submit" 
                                 size="large" 
                                 className="signup-form-button"
-                                disabled={this.isFormInvalid()}>Sign up</Button>
-                            Already registed? <Link to="/login">Login now!</Link>
+                                disabled={this.isFormInvalid()}>Зарегистрироваться</Button>
+                            Уже зарегистрированы? <Link to="/login">Войдите сейчас!</Link>
                         </FormItem>
                     </Form>
                 </div>
@@ -160,12 +160,12 @@ class Signup extends Component {
         if(name.length < NAME_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`
+                errorMsg: `Имя пользователя слишком короткое (Минимум ${NAME_MIN_LENGTH} символов требуется.)`
             }
         } else if (name.length > NAME_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
-                errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`
+                errorMsg: `Имя пользователя слишком длинное (Максимум ${NAME_MAX_LENGTH} символов допустимо.)`
             }
         } else {
             return {
@@ -179,7 +179,7 @@ class Signup extends Component {
         if(!email) {
             return {
                 validateStatus: 'error',
-                errorMsg: 'Email may not be empty'                
+                errorMsg: 'Email не может быть пустым'
             }
         }
 
@@ -187,14 +187,14 @@ class Signup extends Component {
         if(!EMAIL_REGEX.test(email)) {
             return {
                 validateStatus: 'error',
-                errorMsg: 'Email not valid'
+                errorMsg: 'Email некорректен'
             }
         }
 
         if(email.length > EMAIL_MAX_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
+                errorMsg: `Email слишком длинный (Максимум ${EMAIL_MAX_LENGTH} символов допустимо)`
             }
         }
 
@@ -208,12 +208,12 @@ class Signup extends Component {
         if(username.length < USERNAME_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)`
+                errorMsg: `Логин слишком короткий (Минимум ${USERNAME_MIN_LENGTH} символов требуется)`
             }
         } else if (username.length > USERNAME_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
-                errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)`
+                errorMsg: `Логин слишком длинный (Максимум ${USERNAME_MAX_LENGTH} символов требуется)`
             }
         } else {
             return {
@@ -335,12 +335,12 @@ class Signup extends Component {
         if(password.length < PASSWORD_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)`
+                errorMsg: `Пароль слишком короткий (минимум ${PASSWORD_MIN_LENGTH} символов требуется.)`
             }
         } else if (password.length > PASSWORD_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
-                errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
+                errorMsg: `Пароль слишком длинный (максимум ${PASSWORD_MAX_LENGTH} символов допустимо.)`
             }
         } else {
             return {

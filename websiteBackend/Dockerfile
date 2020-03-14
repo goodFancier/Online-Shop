@@ -2,7 +2,7 @@
 FROM openjdk:8-jdk-alpine as build
 
 # Set the current working directory inside the image
-WORKDIR /app
+WORKDIR /websiteBackend
 
 # Copy maven executable to the image
 COPY mvnw .
@@ -14,23 +14,25 @@ COPY pom.xml .
 # Build all the dependencies in preparation to go offline. 
 # This is a separate step so the dependencies will be cached unless 
 # the pom.xml file has changed.
-RUN ./mvnw dependency:go-offline -B
+# RUN mvnw . dependency:go-offline -B
 
 # Copy the project source
 COPY src src
 
+ONBUILD RUN mvn install
+
 # Package the application
-RUN ./mvnw package -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+ONBUILD RUN mvn package -DskipTests
+RUN mkdir -p target/dependency WORKDIR target/dependency
 
 #### Stage 2: A minimal docker image with command to run the app 
 FROM openjdk:8-jre-alpine
 
-ARG DEPENDENCY=/app/target/dependency
+#ARG DEPENDENCY=/app/target/dependency
 
 # Copy project dependencies from the build stage
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
+#COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+#COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+#COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.messager.OnlineShopApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.example.polls.PollsApplication"]
