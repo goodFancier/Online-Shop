@@ -1,7 +1,7 @@
 .ant-carousel{
     margin: 0 auto;
-    margin-top: 50px !important;
     width: 50% !important;
+    margin-bottom: 50px !Important;
 }
 
 .ant-carousel .slick-slide {

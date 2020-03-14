@@ -37,7 +37,7 @@ public class UserBucketController
         UserBucket userBucket = userBucketUtils.getUserBucketByUserId(userId);
         userBucket.getBucketGoods().remove(goodsRepository.findGoodById(Long.valueOf(goodId)));
         userBucketRepository.save(userBucket);
-        return userBucket.getBucketGoods();
+        return goodUtils.initGoodImages(userBucket.getBucketGoods());
     }
 
     @GetMapping("/getBucketTotalSum")

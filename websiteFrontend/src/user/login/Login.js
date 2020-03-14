@@ -12,7 +12,7 @@ class Login extends Component {
         const AntWrappedLoginForm = Form.create()(LoginForm)
         return (
             <div className="login-container">
-                <h1 className="page-title">Login</h1>
+                <h1 className="page-title">Войти в аккаунт</h1>
                 <div className="login-content">
                     <AntWrappedLoginForm onLogin={this.props.onLogin} />
                 </div>
@@ -40,12 +40,12 @@ class LoginForm extends Component {
                     if(error.status === 401) {
                         notification.error({
                             message: 'Online shop',
-                            description: 'Your Username or Password is incorrect. Please try again!'
+                            description: 'Ваш логин или пароль введен неправильно. Пожалуйста, попробуйте ещё раз!'
                         });                    
                     } else {
                         notification.error({
                             message: 'Online shop',
-                            description: error.message || 'Sorry! Something went wrong. Please try again!'
+                            description: error.message || 'Извините! Что-то пошло не так. Пожалуйста, попробуйте ещё раз!'
                         });                                            
                     }
                 });
@@ -59,30 +59,30 @@ class LoginForm extends Component {
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
                     {getFieldDecorator('usernameOrEmail', {
-                        rules: [{ required: true, message: 'Please input your username or email!' }],
+                        rules: [{ required: true, message: 'Пожалуйста, введите ваш логин или email!' }],
                     })(
                     <Input 
                         prefix={<Icon type="user" />}
                         size="large"
                         name="usernameOrEmail" 
-                        placeholder="Username or Email" />    
+                        placeholder="Логин или Email" />
                     )}
                 </FormItem>
                 <FormItem>
                 {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input your Password!' }],
+                    rules: [{ required: true, message: 'Пожалуйста, введите ваш пароль!' }],
                 })(
                     <Input 
                         prefix={<Icon type="lock" />}
                         size="large"
                         name="password" 
                         type="password" 
-                        placeholder="Password"  />                        
+                        placeholder="Пароль"  />
                 )}
                 </FormItem>
                 <FormItem>
                     <Button type="primary" htmlType="submit" size="large" className="login-form-button">Войти</Button>
-                    Or <Link to="/signup">register now!</Link>
+                    Или <Link to="/signup">зарегистрируйтесь сейчас!</Link>
                 </FormItem>
             </Form>
         );
