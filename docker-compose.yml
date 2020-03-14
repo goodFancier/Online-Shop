@@ -42,7 +42,7 @@ services:
   db:
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - "3307:3307"
     restart: always
     environment:
       MYSQL_DATABASE: onlineshop
@@ -50,7 +50,7 @@ services:
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data:C:\ProgramData\MySQL\MySQL Server 5.7\Data
     networks:
       - backend  
   
