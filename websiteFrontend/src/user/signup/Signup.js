@@ -62,13 +62,13 @@ class Signup extends Component {
         .then(response => {
             notification.success({
                 message: 'Online shop',
-                description: "Спасибо! Вы были успешно зарегистрированы. Пожалуйста выполните вход чтобы продолжить!",
+                description: "Спасибо! Вы были успешно зарегистрированы. Пожалуйста, выполните вход чтобы продолжить!",
             });          
             this.props.history.push("/login");
         }).catch(error => {
             notification.error({
                 message: 'Online shop',
-                description: error.message || 'Извините! Что-то пошло не так. Пожалуйста, попробуйте ещё ращ!'
+                description: error.message || 'Извините! Что-то пошло не так. Пожалуйста, попробуйте ещё раз!'
             });
         });
     }
@@ -87,6 +87,32 @@ class Signup extends Component {
                 <h1 className="page-title">Регистрация</h1>
                 <div className="signup-content">
                     <Form onSubmit={this.handleSubmit} className="signup-form">
+                        <FormItem label="Логин"
+                                  hasFeedback
+                                  validateStatus={this.state.username.validateStatus}
+                                  help={this.state.username.errorMsg}>
+                            <Input
+                                size="large"
+                                name="username"
+                                autoComplete="off"
+                                placeholder="Придумайте уникальный логин"
+                                value={this.state.username.value}
+                                onBlur={this.validateUsernameAvailability}
+                                onChange={(event) => this.handleInputChange(event, this.validateUsername)} />
+                        </FormItem>
+                        <FormItem
+                            label="Пароль"
+                            validateStatus={this.state.password.validateStatus}
+                            help={this.state.password.errorMsg}>
+                            <Input
+                                size="large"
+                                name="password"
+                                type="password"
+                                autoComplete="off"
+                                placeholder="Пароль не менее 6 символов"
+                                value={this.state.password.value}
+                                onChange={(event) => this.handleInputChange(event, this.validatePassword)} />
+                        </FormItem>
                         <FormItem
                             label="Полное имя"
                             validateStatus={this.state.name.validateStatus}
@@ -98,19 +124,6 @@ class Signup extends Component {
                                 placeholder="Введите ваше полное имя(имя + фамилия)"
                                 value={this.state.name.value} 
                                 onChange={(event) => this.handleInputChange(event, this.validateName)} />    
-                        </FormItem>
-                        <FormItem label="Логин"
-                            hasFeedback
-                            validateStatus={this.state.username.validateStatus}
-                            help={this.state.username.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="username" 
-                                autoComplete="off"
-                                placeholder="Придумайте уникальный логин"
-                                value={this.state.username.value} 
-                                onBlur={this.validateUsernameAvailability}
-                                onChange={(event) => this.handleInputChange(event, this.validateUsername)} />    
                         </FormItem>
                         <FormItem 
                             label="Email"
@@ -127,19 +140,7 @@ class Signup extends Component {
                                 onBlur={this.validateEmailAvailability}
                                 onChange={(event) => this.handleInputChange(event, this.validateEmail)} />    
                         </FormItem>
-                        <FormItem 
-                            label="Пароль"
-                            validateStatus={this.state.password.validateStatus}
-                            help={this.state.password.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="password" 
-                                type="password"
-                                autoComplete="off"
-                                placeholder="Пароль не менее 6 символов"
-                                value={this.state.password.value} 
-                                onChange={(event) => this.handleInputChange(event, this.validatePassword)} />    
-                        </FormItem>
+
                         <FormItem>
                             <Button type="primary" 
                                 htmlType="submit" 
