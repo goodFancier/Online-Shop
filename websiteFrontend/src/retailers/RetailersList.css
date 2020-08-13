@@ -1,0 +1,50 @@
+.advertisement-image {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+.ant-card-cover {
+    height: 70%;
+    border-bottom: 1px solid #eceae7;
+}
+
+.b-retailer__header {
+    overflow: hidden;
+    height: 100%;
+}
+
+.b-retailer__logo {
+    display: block;
+    margin: 40px auto;
+}
+
+.b-retailer__logo_loaded_true {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.b-image__root {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.retailer-list .ant-card-body {
+    padding:20px;
+}
+
+.retailer-city-select {
+    margin-bottom: 20px;
+}

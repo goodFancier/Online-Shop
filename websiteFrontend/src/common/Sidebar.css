@@ -1,0 +1,184 @@
+/* Position and sizing of burger button */
+.sidebar {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.bm-burger-button {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    left: 15px;
+    top: 12px;
+    margin-top: 12px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+    background: #373a47;
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+    background: #a90000;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+    height: 24px;
+    width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+    background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+    position: fixed;
+    height: 100%;
+    width: 264px !important;
+    z-index: 2000 !important;
+    top: 0 !important;
+}
+
+/* General sidebar styles */
+.bm-menu {
+    background: #fff;
+    font-size: 1.15em;
+    overflow: hidden !important;
+    width: 100% !important;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+    fill: #373a47;
+}
+
+/* Individual item */
+.bm-item {
+    display: inline-block;
+    height: 40px;
+}
+
+.menu-item {
+    color: #323a42 !important;
+    display: flex !important;
+    float: none !important;
+    text-align: start !important;
+    padding: 12px 16px;
+    font-size: 14px !important;
+    line-height: 16px;
+}
+
+.menu-item--small {
+    width: 30px;
+}
+
+.ms-avatar--size-30 {
+    height: 2rem;
+    width: 2rem;
+    margin: 0px !important;
+}
+
+.ms-avatar {
+    background-color: inherit;
+    position: relative;
+    padding-right: 10px;
+}
+
+.ms-img {
+    width: 30px;
+}
+
+.burger-btn-icon {
+    background: white !important;
+}
+
+.sidebar-header {
+    height: 128px;
+    background: linear-gradient(45deg, #4041A6, transparent);
+    display: flex !important;
+}
+
+.sidebar-main {
+    height: auto;
+    border-top: 1px solid #e8e8e8;
+    padding: 12px 0;
+}
+
+.sidebar-item {
+    height: 40px;
+}
+
+.sidebar-auth-main {
+    margin-top: 38px;
+    padding-left: 16px;
+}
+
+.sidebar-location {
+    height: auto;
+    padding: 16px 8px 24px 16px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.sidebar-location-title {
+    font-family: Roboto Medium, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 16px;
+}
+
+.sidebar-location-desc {
+    padding-top: 2px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #b3b3b3;
+}
+
+.sidebar-login-btn {
+    width: 64px;
+    height: 64px;
+    background: url('../resources/login-3.png') no-repeat 0 0;
+    border: none;
+    background-position: 40%;
+    background-color: #fff !important;
+    border-radius: 50%;
+    margin-top: 34px;
+    margin-left: 15px;
+}
+
+.sidebar-auth-header {
+    font-family: Roboto Medium, Arial, sans-serif;
+    font-size: 20px;
+    line-height: 24px;
+    color: #fff;
+}
+
+.sidebar-auth-desc {
+    width: 150px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #fff;
+    padding-top: 4px;
+}
+
+.sidebar-logout-btn{
+    padding-top: 10px;
+    color: #fff !important;
+    font-size: 12px !important;
+    margin-left: 1px;
+}
+
+.user-avatar {
+    display: flex;
+}
+
+.sidebar-avatar {
+    margin-top: 34px;
+    margin-left: 15px;
+}

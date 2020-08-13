@@ -1,0 +1,299 @@
+body {
+    font-family: YSText, helvetica, arial, sans-serif;
+    color: #000000;
+    background: #ffffff;
+}
+
+.Modal_paper [data-modal-body] {
+    max-height: 556px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+[data-modal-head] + .ModalBody_root {
+    border-top: solid 1px #f5f5f5;
+}
+
+.ModalBody_root {
+    padding: 16px;
+    background-color: #fafafa;
+}
+
+.DesktopModalOrderHistory_container {
+    padding: 0 6px;
+}
+
+.ant-pagination {
+    text-align: center;
+}
+
+.ant-table-pagination.ant-pagination {
+    float: none;
+    margin: 16px 0;
+}
+
+/* ant-list*/
+.ant-list {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 1);
+    font-size: 16px;
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    list-style: none;
+    -webkit-font-feature-settings: 'tnum';
+    font-feature-settings: 'tnum', "tnum";
+    position: relative;
+}
+
+/*Мобильная версия*/
+.MobileUIFullScreenModalBody_root {
+    flex: 1 0 auto;
+    position: relative;
+}
+
+.MobileUIFullScreenModalBody_visible .MobileUIFullScreenModalBody_content {
+    transform: translateX(0) !important;
+}
+
+.MobileUIFullScreenModalBody_visible {
+    width: 100%;
+}
+
+.MobileUIFullScreenModalBody_content {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    position: absolute;
+    overflow: auto;
+    transition: all 400ms;
+    line-height: initial;
+    white-space: initial;
+}
+
+.MobileSingleOrderModal_order {
+    padding: 20px 15px 20px 0;
+    margin-left: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+*:not(input):not(textarea) {
+    user-select: none;
+}
+
+.MobileSingleOrderModal_mainInfo {
+    display: flex;
+    width: 100%;
+}
+
+.MobileSingleOrderModal_name {
+    display: flex;
+    align-items: center;
+}
+
+.MobileSingleOrderModal_priceWrapper {
+    margin-left: auto;
+}
+
+.MobileSingleOrderModal_price {
+    border: 1px solid #b0b0b0;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+/*Второй слой*/
+
+.MobileSingleOrderModal_dateNStatus {
+    padding-top: 20px;
+    display: inline-block;
+}
+
+.MobileSingleOrderModal_status {
+    color: #b0b0b0;
+}
+
+
+.MobileSingleOrderModal_menuItems {
+    padding-top: 10px;
+}
+
+/* Список товаров в заказе*/
+.MobileSingleOrderModal_menuItemsBody {
+
+    line-height: 1;
+    border-bottom: none !important;
+    display: list-item;
+}
+
+.MobileSingleOrderModal_menuItemInfo {
+    display: flex;
+}
+
+.MobileSingleOrderModal_menuItemInfo_lineNormal {
+    line-height: normal;
+    display: flex;
+}
+.MobileSingleOrderModal_menuItemInfo_driveCarInfoMini {
+    padding-top: 10px;
+    font-size: larger;
+}
+
+.MobileSingleOrderModal_menuItemInfo_driveCarInfoFull {
+    padding-top: 10px;
+}
+
+.MobileSingleOrderModel_menuItemInfo_DriveInfo {
+    background-color: #d9d9d9;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.MobileSingleOrderModal_menuItemCount {
+    margin-left: auto;
+    padding-left: 15px;
+}
+
+/* ant sub menu */
+.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+    height: auto !important;
+    line-height: normal !important;
+    padding: 0 !important;
+    font-size: 18px;
+    white-space: unset;
+}
+
+.ant-menu-submenu-title:hover {
+    color: #151515;
+}
+
+.ant-menu-inline {
+    border-right: none;
+}
+
+.sub-menu-title {
+    height: auto !important;
+    line-height: normal !important;
+    padding-left: 0px;
+}
+
+.ant-menu-submenu-arrow {
+    display: none;
+}
+
+/* кнопка повторить */
+
+.MobileUIButton_root {
+    color: #000;
+    height: 52px;
+    border: 0;
+    display: flex;
+    padding: 0 20px;
+    position: relative;
+    overflow: hidden;
+    font-size: 16px;
+    transition: background 200ms;
+    font-weight: 400;
+    user-select: none;
+    border-radius: 8px;
+}
+
+.repeat-order-btn {
+    max-width: 420px !important;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.MobileSingleOrderModal_interactionButtonRoot:first-of-type {
+    margin-top: 20px;
+}
+
+.MobileSingleOrderModal_interactionButtonRoot {
+    width: 100%;
+    height: 44px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.MobileUIButton_primary {
+    background-color: rgb(24, 144, 255);
+}
+
+.MobileUIButton_content {
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    transition: all 150ms;
+    text-align: center;
+    line-height: 52px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #fff !important;
+}
+
+.MobileSingleOrderModal_interactionButtonContent {
+    line-height: 44px;
+}
+
+.order-table-header {
+    font-weight: bold !important;
+    color: #333 !important;
+}
+
+.repeat-order-button-label {
+    width: 100%;
+}
+
+.order-table-expanded-body {
+    border-bottom: 1px solid #eceae7;
+}
+
+.ant-table-expanded-row td, .order-table-body .ant-table-row td {
+    border-bottom: none !important;
+}
+
+.order-pay-btn, .order-pay-btn-mini {
+    width: 100%;
+    color: #fff;
+    background: #1890ff;
+}
+
+.order-pay-btn-mini {
+    margin-top: 20px;
+}
+
+.order-pay-btn:hover, .order-pay-btn-mini:hover {
+    background-color: #40a9ff;
+    color: #fff;
+
+}
+
+.onloading-panel {
+    display: flex;
+    position: fixed;
+    left: 42vw;
+    top: 50%;
+    z-index: 2000;
+}
+
+
+.onloading-panel-mini {
+    display: flex;
+    z-index: 2000;
+}
+
+.loading-div {
+    display: flex;
+}
+
+.onloading-tabs {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.order-table-delivery-price {
+    margin-left: 15px;
+}

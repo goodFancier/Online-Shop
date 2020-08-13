@@ -1,0 +1,103 @@
+.purchase-constructor-header {
+    font-size: 28px;
+    line-height: 3.6rem;
+    vertical-align: middle;
+    color: #333;
+}
+
+.purchase-constructor-header_n1 {
+    color: #333;
+}
+
+.purchase-block-right {
+    float: right;
+}
+
+.total-sum .ant-card-body {
+    background: #f5f5f5;
+}
+
+.purchase-block-right-wrapper {
+    position: relative;
+    float: right;
+}
+
+.purchase-block-right {
+    top: 100px;
+}
+
+.order-page-list-cart .ant-card-cover {
+    height: auto;
+}
+
+.order-page-list-cart .delete-item {
+    padding-bottom: 10px;
+}
+
+.make-purchase-btn {
+    float: right;
+    margin-top: 20px;
+}
+
+.purchase-hr {
+    height: 1px;
+    background: #ebebeb;
+    margin: 0;
+    border: none;
+}
+
+.purchase-summary-label {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+}
+
+.purchase-summary-label .ant-card-body {
+    padding: 0;
+}
+
+.purchase-summary-label .order-page-sum {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.purchase-summary-label .order-page-summary-wrapper:before {
+    bottom: 1.2rem;
+}
+
+.purchase-block-right-wrapper .ant-list-item {
+    border-bottom: none;
+}
+
+.purchase-smallscreen-items-menu {
+    border: none;
+}
+
+.purchase-smallscreen-items-menu .ant-menu-submenu-title {
+    color: #333333;
+}
+
+.purchase-smallscreen-items-menu .ant-menu-submenu-arrow:before {
+    background: #333 !important;
+}
+
+.purchase-smallscreen-items-menu .ant-menu {
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.purchase-list-items .ant-list-items {
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.small-make-order {
+    width: 100%;
+}
+
+
+.login-form-button {
+    width: 100%;
+}
