@@ -1,84 +1,70 @@
 import React, {Component} from 'react'
 import './Bucket.css';
-import {Table, Col, Row, Card, Button} from 'antd';
-import {deleteFromUserBucket, getUserBucketGoods, getBucketTotalSum, getRandomGoods} from "../../util/APIUtils";
-import {formatDate} from "../../util/Helpers";
-import {Link} from "react-router-dom";
+import {Table, Col, Row, Card, Button, List, notification, Icon} from 'antd';
+import 'antd/dist/antd.css';
+import {PlusCircleFilled, MinusCircleOutlined} from '@ant-design/icons';
+import {deleteFromUserBucket, getUserBucketGoods, setGoodQuantity} from "../../util/APIUtils";
 
 const {Column} = Table;
-const {Meta} = Card;
-
-// rowSelection object indicates the need for row selection
-const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
-    }),
-};
 
 class Bucket extends Component {
     state = {
         query: '',
         userGoods: [],
         lastParticipants: [],
-        loading: false,
+        loading: true,
         totalSum: null,
         randomGoods: [],
         randomGoodName1: null,
         randomGoodName2: null,
         randomGoodImage1: null,
-        randomGoodImage2: null
+        randomGoodImage2: null,
+        itemCount: null
     };
 
     constructor(props) {
         super(props);
-        this.initUserBuckerGoods(this.props.currentUser);
+        this.initUserBuckerGoods();
         if (this.props.currentUser != null)
             this.initTotalSum(this.props.currentUser.id);
-        this.initRandomGoods();
     }
 
     initUserBuckerGoods(currentUser) {
-        if (currentUser != null && currentUser.id != null) {
-            let users = getUserBucketGoods(currentUser.id);
-            users
-                .then(response => {
-                    this.setState(this.initGoodsResponseValues(response));
-                });
-        }
-    }
-
-    initTotalSum(userId) {
-        getBucketTotalSum(userId).then(response => {
-            this.setState({totalSum: response})
-        }).catch(error => {
+        this.setState({loading: true});
+        let users = getUserBucketGoods();
+        users
+            .then(response => {
+                for (let i = 0; i < response.length; i++) {
+                    this.state.userGoods.push(response[i]);
+                    this.setState({userGoods: this.state.userGoods});
+                }
+                this.setState({loading: false});
+                this.initTotalSum(this.state.userGoods);
+                this.setState({loading: false});
+            }).catch(error => {
+            this.setState({loading: false});
         });
     }
 
-    initGoodsResponseValues(response) {
-        for (let i = 0; i < response.length; i++) {
-            response[i].createdAt = formatDate(response[i].createdAt.epochSecond);
-            this.state.userGoods.push(response[i]);
-            this.setState({userGoods: this.state.userGoods})
+    initTotalSum(userGoods) {
+        this.setState({itemCount: null});
+        let sum = 0;
+        for (let i = 0; i < userGoods.length; i++) {
+            sum += userGoods[i].price * userGoods[i].quantity;
+            this.setState({itemCount: this.state.itemCount + userGoods[i].quantity});
         }
+        this.setState({totalSum: sum});
     }
 
-    deleteGoodFromBucket(event, userId, goodId) {
-        deleteFromUserBucket(this.props.currentUser.id, goodId).then(response => {
-            this.setState({userGoods: response, totalSum: this.initTotalSum(this.props.currentUser.id)})
+    deleteGoodFromBucket(goodId) {
+        deleteFromUserBucket(goodId).then(response => {
+            this.setState({userGoods: response});
+            this.initTotalSum(response);
         }).catch(error => {
-        });
-    }
-
-    initRandomGoods() {
-        getRandomGoods().then(response => {
-            this.setState({
-                randomGoods: response
-            })
-        }).catch(error => {
+            notification.error({
+                message: 'De/Li',
+                description: 'Не удалось удалить товар!'
+            });
         });
     }
 
@@ -87,83 +73,144 @@ class Bucket extends Component {
         this.props.history.push(`/good/${goodId}`);
     }
 
+    continuePurchase(event) {
+        event.preventDefault();
+        this.props.history.push(`/purchaseConstructor`)
+    }
+
+    setGoodQuantity(event, goodId, type) {
+        event.preventDefault();
+        const setGoodQuantityRequest = {'goodId': goodId, 'eventType': type};
+        setGoodQuantity(setGoodQuantityRequest).then(response => {
+            this.setState({userGoods: response});
+            this.initTotalSum(this.state.userGoods);
+        }).catch(error => {
+            notification.error({
+                message: 'De/Li',
+                description: 'Не удалось изменить количество товара!'
+            });
+        });
+    }
+
     render() {
-
-        return (
-            <Row type="flex" justify="space-between">
-                <Col span={18}>
+        let orderPageContent;
+        if (window.innerWidth < 1050)
+            orderPageContent = [
+                <div>
                     <h2>Моя корзина</h2>
-                    < Table className="bucket-good-list"
-                            rowSelection={rowSelection}
-                            dataSource={this.state.userGoods}
-                    >
-                        <Column title="Наименование товара" dataIndex="name" key="name"/>
-                        <Column title="Стоимость" dataIndex="currentPrice" key="currentPrice"/>
-                        <Column title="Дата поступления на склад" dataIndex="createdAt" key="createdAt"/>
-                        <Column title="Изображение" dataIndex="imageUrl" key="imageUrl" render={(key) => (<img
-                            src={key}/>)}/>
-                        <Column
-                            title="Действие"
-                            key="action"
-                            render={(record) => (
-                                <a onClick={(e) => this.deleteGoodFromBucket(e, this.props.currentUser.id, record.id)}>Удалить</a>
-                            )}
-                        />
-                    </Table>
-                </Col>
-                <Col span={4} bordered={true} className="order-panel">
+                    <List className="catalogue-good-list" loading={this.state.loading}
+                          grid={{
+                              gutter: 1, xs: 1,
+                              sm: 1,
+                              md: 2,
+                              lg: 2,
+                              xl: 3,
+                              xxl: 4,
+                          }}
+                          dataSource={this.state.userGoods}
+                          renderItem={item => (
+                              <List.Item
+                                  key={item.id}
+                              >
+                                  <Card className="order-page-list-cart" hoverable
+                                        style={{width: 240}}
+                                        cover={
+                                            <div className="order-page-list-cart-wrapper">
+                                                <div className="order-page-list-image-wrapper">
+                                                    <img className="order-page-list-img" alt="example" align="middle" onClick={(e) => this.redirectToGoodPage(e, item.goodId)}
+                                                         src={item.imageUrl}/>
+                                                </div>
+                                                <div className="order-page-list-cart-content-wrapper">
+                                                    <div className="order-page-list-text-wrapper">
+                                                        {item.name}
+                                                    </div>
+                                                    <div className="quantity-label">
+                                                        <button className="set-quantity-button" type="button" onClick={(e) => this.setGoodQuantity(e, item.goodId, 'decrease')}><MinusCircleOutlined/></button>
+                                                        <div className="item-count">{item.quantity} {item.quantity === 1 ? "штука" :
+                                                            item.quantity === 2 || item.quantity === 3 || item.quantity === 4 ? "штуки" : "штук"}</div>
+                                                        <button className="set-quantity-button" type="button" onClick={(e) => this.setGoodQuantity(e, item.goodId, 'increase')}><PlusCircleFilled/></button>
+                                                        <div className="item-count count-price-value">{item.price}₽</div>
+                                                    </div>
+                                                    <div>
+                                                        <p className="item-price">{item.quantity * item.price}₽</p>
+                                                    </div>
+                                                    <div>
+                                                        <a className="item-count" onClick={(e) => this.deleteGoodFromBucket(item.id)}>Удалить</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        style={{width: 300}}
+                                  />
+                              </List.Item>
+                          )}
+                    />
+                    <div className="order-page-summary-wrapper">
+                        <div>
+                            <p className="order-page-summary">В корзине {this.state.itemCount} {this.state.itemCount === 1 ? "товар" :
+                                this.state.itemCount === 2 || this.state.itemCount === 3 || this.state.itemCount === 4 ? "товара" : "товаров"}</p>
+                        </div>
+                        <div>
+                            <p className="order-page-sum">{this.state.totalSum}р</p>
+                        </div>
+                    </div>
+                    <Button type="primary" block className="order-button" onClick={(e) => this.continuePurchase(e)} disabled={this.state.userGoods.length <= 0}>
+                        Продолжить оформление
+                    </Button>
+                </div>
+            ];
+        else
+            orderPageContent = [<Row type="flex" justify="space-between">
+                <Col lg={16}>
                     <div>
-
-                        <Card className="total-sum" style={{width: 300}}>
-                            <Meta
-                                title={"Общая сумма к оплате " + this.state.totalSum}
-                                description="Заказ будет доставлен 14 октября"
+                        <h2>Моя корзина</h2>
+                        < Table className="bucket-good-list" loading={this.state.loading}
+                                dataSource={this.state.userGoods}
+                        >
+                            <Column title="Изображение" dataIndex="imageUrl" key="imageUrl" render={(key) => (<img className="bucket-table-img"
+                                                                                                                   src={key}/>)}/>
+                            <Column title="Наименование товара" dataIndex="name" key="name"/>
+                            <Column title="Цена" dataIndex="price" key="price" render={(key) => <div>{key}₽</div>}/>/>
+                            <Column title="Количество" dataIndex="quantity" key="quantity" render={(key, record) => <div className="quantity-label">
+                                <button className="set-quantity-button" type="button" onClick={(e) => this.setGoodQuantity(e, record.goodId, 'decrease')}><MinusCircleOutlined/></button>
+                                {key}
+                                <button className="set-quantity-button" type="button" onClick={(e) => this.setGoodQuantity(e, record.goodId, 'increase')}><PlusCircleFilled/></button>
+                            </div>}/>
+                            <Column title="Стоимость" dataIndex="price" key="price" render={(key, record) => <div>{record.quantity * key}₽</div>}/>
+                            < Column
+                                title="Действие"
+                                key="action"
+                                render={(record) => (
+                                    <a onClick={(e) => this.deleteGoodFromBucket(record.goodId)}>Удалить</a>
+                                )}
                             />
-                            <Button type="primary" block className="order-button">
-                                Сделать заказ
+                        </Table>
+                    </div>
+                </Col>
+                <Col lg={5} bordered={true} className="order-panel">
+                    <div>
+                        <Card className="total-sum" style={{width: 300}}>
+                            <div className="order-page-summary-wrapper">
+                                <div>
+                                    <p className="order-page-summary">В корзине {this.state.itemCount} {this.state.itemCount === 1 ? "товар" :
+                                        this.state.itemCount === 2 || this.state.itemCount === 3 || this.state.itemCount === 4 ? "товара" : "товаров"}</p>
+                                </div>
+                                <div>
+                                    <p className="order-page-sum">{this.state.totalSum}р</p>
+                                </div>
+                            </div>
+                            <Button type="primary" block className="order-button" onClick={(e) => this.continuePurchase(e)} disabled={this.state.userGoods.length <= 0}>
+                                Продолжить оформление
                             </Button>
                         </Card>
-                        <div> {
-                            this.state.randomGoods[0] != null ? (
-                                <Card className="advertisement" hoverable title="Может быть интересно"
-                                      style={{width: 240}}
-                                      cover={<img alt="example" align="middle"
-                                                  src={this.state.randomGoods[0].imageUrl}/>}
-                                      style={{width: 300, marginTop: 16}}
-                                      actions={[
-                                          <div onClick={(e) => this.redirectToGoodPage(e, this.state.randomGoods[0].id)}>
-                                              <button>Посмотреть предложение</button>
-                                          </div>
-                                      ]}
-                                >
-                                    <Meta title={this.state.randomGoods[0].name}
-                                          description={this.state.randomGoods[0].name}/>
-                                </Card>
-
-                            ) : null
-                        }
-                        </div>
-
-                        <div> {
-                            this.state.randomGoods[1] != null ? (
-                                < Card className="advertisement" hoverable title="Может быть интересно"
-                                       style={{width: 240}}
-                                       cover={<img alt="example" align="middle"
-                                                   src={this.state.randomGoods[1].imageUrl}/>}
-                                       style={{width: 300, marginTop: 16}}
-                                       actions={[
-                                           <div onClick={(e) => this.redirectToGoodPage(e, this.state.randomGoods[1].id)}>
-                                               <button>Посмотреть предложение</button>
-                                           </div>
-                                       ]}
-                                >
-                                    <Meta title={this.state.randomGoods[1].name}
-                                          description={this.state.randomGoods[1].name}/>
-                                </Card>) : null
-                        }</div>
                     </div>
                 </Col>
             </Row>
+            ];
+        return (
+            <div>
+                {orderPageContent}
+            </div>
         )
     }
 }

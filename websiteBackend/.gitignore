@@ -65,3 +65,9 @@ yarn-error.log*
 /target/classes/com/messager/Utils/Ajax.class
 /target/classes/com/messager/Utils/RestException.class
 /target/classes/com/messager/exception/BadRequestException.class
+/.idea/
+/.idea/
+/target/
+/.idea/
+/.gitignore
+/messager.iml

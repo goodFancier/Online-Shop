@@ -11,7 +11,7 @@
     text-align: center;
 }
 
-.advertisement img{
+.advertisement img {
     width: 50%;
     margin: auto;
     padding-top: 50px;
@@ -20,4 +20,131 @@
 .bucket-good-list img {
     max-height: 100px;
     width: auto;
+}
+
+.order-page-list-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    max-height: 100%;
+    position: static;
+    top: auto;
+    left: auto;
+    width: auto !important;
+    background: 0 0;
+    margin: 0 auto !important;
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s !important;
+    padding: 10px !important;
+}
+
+.bucket-table-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.order-page-list-image-wrapper {
+    width: 6.4rem;
+    height: 6.4rem;
+    display: inline-block;
+    flex: 0 0 auto;
+}
+
+.order-page-list-text-wrapper {
+    color: #333;
+}
+
+.order-page-list-cart-wrapper {
+    display: flex;
+}
+
+.item-count {
+    color: #999;
+}
+
+.item-price {
+    width: 7.7rem;
+    display: inline-block;
+    color: #333;
+    line-height: 2.2rem;
+    font-weight: 700;
+    position: relative;
+}
+
+.count-price-value {
+    position: absolute;
+    right: 5px;
+}
+
+.order-page-list-cart .ant-card-body {
+    display: none !important;
+}
+
+.order-page-list-cart .ant-card-cover {
+    height: 150px;
+}
+
+.order-page-list-cart {
+    border: none !important;
+}
+
+.order-page-list-cart-content-wrapper {
+    margin-left: 20px !important;
+}
+
+.order-page-summary {
+    color: #333;
+}
+
+.order-page-summary-wrapper {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.order-page-summary-wrapper:before {
+    content: '';
+    border-bottom: 1px solid #333;
+    background-size: 25rem .1rem;
+    display: inline-block;
+    position: absolute;
+    bottom: .8rem;
+    height: .1rem;
+    width: 100%;
+}
+
+.order-page-sum {
+    float: right;
+    padding-bottom: .2rem;
+    padding-left: .4rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.order-panel .ant-card-body {
+    background: #f5f5f5;
+}
+
+.ant-table-pagination {
+    width: 100%;
+    text-align: center;
+}
+
+.bucket-good-list th, .bucket-good-list td {
+    text-align: center !important;
+}
+
+.quantity-label {
+    display: flex !important;
+}
+
+.set-quantity-button {
+    background: none !important;
+    border: none !important;
+    outline: none;
 }

@@ -63,6 +63,9 @@ Before you can start the server you need to install some dependencies. You can d
 * npm install antd react-router-dom --save 
 * npm install react-app-rewired babel-plugin-import react-app-rewire-less --save-dev
 * npm install --save react-autocomplete
+* npm install react-burger-menu --save
+* npm install --save @ant-design/icons
+* npm install react-infinite-scroller --save
 
 Finally, by executing the following commands you can start the server
 

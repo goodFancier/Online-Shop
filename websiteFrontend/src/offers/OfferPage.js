@@ -55,7 +55,7 @@ class OfferPage extends Component {
 
     addToBucketEvent(event, goodId) {
         event.preventDefault();
-        addToBucket(this.props.currentUser.id, goodId).then(response => {
+        addToBucket(goodId).then(response => {
         }).catch(error => {
         });
     }

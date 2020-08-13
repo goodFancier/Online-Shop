@@ -8,6 +8,7 @@
     margin-right: auto;
     padding-left: 15px;
     padding-right: 15px;
+    margin-top: 10px;
 }
 
 .app-title a {
@@ -28,11 +29,12 @@
     background-color: #4041A6 !important;
     height: 50px !important;
     padding: 0 !important;
-    z-index: 2500;
+    z-index: 1000 !important;
 }
 
 .ant-layout-header {
     line-height: 0px !important;
+    height: 70px !important;
 }
 
 .navbar a {
@@ -134,12 +136,16 @@ button[id='signup'] {
 }
 
 .header-link-margin {
-    margin-left: 15px;
+    margin-left: 30px;
+}
+
+.shop-name-narrow {
+    margin-left: 50px !important;
 }
 
 .shop-name-title a {
-    line-height: 13px;
-    font-size: 21px !important;
+    line-height: 14px;
+    font-size: 26px !important;
 }
 
 .basket-header-button {
@@ -150,4 +156,41 @@ button[id='signup'] {
     background: none;
     background-image: url('../resources/shopBasket.svg');
     border: none;
+    margin-right: 15px;
+}
+
+.usermenu-label {
+    margin-right: 15px;
+}
+
+.bucket-icon-right {
+    float: right !important;
+    margin-right: 10px;
+    margin-top: 2px !important;
+}
+
+.search-desc, .search-mini {
+    float: right;
+    margin-top: 10px !important;
+}
+
+.search-desc {
+    width: 300px !important;
+}
+
+.search-mini {
+    width: 180px !important;
+    margin-right: 10px !important;
+}
+
+.mini-screen-header-content {
+    margin-top: 10px;
+}
+
+.mini-screen-header-content .app-title {
+    margin-top: 18px;
+}
+
+.login-or-register-btn {
+    font-size: 16px !important;
 }

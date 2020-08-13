@@ -6,14 +6,7 @@
     text-align: center;
 }
 
-.user-avatar-circle {
-    width: 120px !important;
-    height: 120px !important;
-    border-radius: 60px;
-    line-height: 60px;
-}
-
-.user-avatar-circle img{
+.user-avatar-circle img {
     object-fit: contain !important;
 }
 
@@ -33,7 +26,7 @@
     .user-details {
         text-align: left;
         display: table;
-    }    
+    }
 
     .user-avatar, .user-summary {
         float: left;
@@ -50,7 +43,7 @@
 .user-summary .full-name {
     font-size: 30px;
     font-weight: 600;
-    color: rgba(0,0,0,0.85);
+    color: rgba(0, 0, 0, 0.85);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -67,10 +60,17 @@
 @media (max-width: 768px) {
     .user-summary .full-name {
         font-size: 24px;
-    }    
+    }
 }
 
 .full-name {
     width: fit-content;
+}
+
+
+.reset-form-button {
+    background-color: #f5f5f5 !important;
+    color: #333 !important;
+    border: 1px solid #e8e8e8 !important;
 }
 

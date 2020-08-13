@@ -8,3 +8,11 @@
 .login-form-button {
     width: 100%;
 }
+
+.Logo {
+    background: url('../../resources/site-logo.jpg');
+}
+
+.site-main-logo {
+    width: 110%;
+}

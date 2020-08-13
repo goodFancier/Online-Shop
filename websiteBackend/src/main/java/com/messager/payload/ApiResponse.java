@@ -7,6 +7,7 @@ public class ApiResponse {
     private Boolean success;
     private String message;
     private Date date;
+    private Object object;
 
     public ApiResponse(Boolean success, String message) {
         this.success = success;
@@ -17,6 +18,13 @@ public class ApiResponse {
         this.success = success;
         this.message = message;
         this.date = date;
+    }
+
+    public ApiResponse(Boolean success, String message, Date date, Object object) {
+        this.success = success;
+        this.message = message;
+        this.date = date;
+        this.object = object;
     }
 
     public Boolean getSuccess() {
@@ -43,5 +51,15 @@ public class ApiResponse {
     public void setDate(Date date)
     {
         this.date = date;
+    }
+
+    public Object getObject()
+    {
+        return object;
+    }
+
+    public void setObject(Object object)
+    {
+        this.object = object;
     }
 }

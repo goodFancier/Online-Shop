@@ -1,355 +1,141 @@
-import React, { Component } from 'react';
-import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../util/APIUtils';
+import React, {Component} from 'react';
+import {signup} from '../../util/APIUtils';
+import {requestSmsCode} from '../../util/APIUtils';
 import './Signup.css';
-import { Link } from 'react-router-dom';
-import { 
-    NAME_MIN_LENGTH, NAME_MAX_LENGTH, 
-    USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
-    EMAIL_MAX_LENGTH,
-    PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
-} from '../../constants';
+import {Link} from 'react-router-dom';
+import {ACCESS_TOKEN} from '../../constants';
 
-import { Form, Input, Button, notification } from 'antd';
+import {Form, Input, Button, notification, Icon} from 'antd';
+import Timer from "../../common/TImer";
+import logo from "../../resources/site-logo.jpg";
+
 const FormItem = Form.Item;
 
 class Signup extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: {
-                value: ''
-            },
-            username: {
-                value: ''
-            },
-            email: {
-                value: ''
-            },
-            password: {
-                value: ''
-            }
-        }
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.validateUsernameAvailability = this.validateUsernameAvailability.bind(this);
-        this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
-        this.isFormInvalid = this.isFormInvalid.bind(this);
-    }
-
-    handleInputChange(event, validationFun) {
-        const target = event.target;
-        const inputName = target.name;        
-        const inputValue = target.value;
-
-        this.setState({
-            [inputName] : {
-                value: inputValue,
-                ...validationFun(inputValue)
-            }
-        });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-    
-        const signupRequest = {
-            name: this.state.name.value,
-            email: this.state.email.value,
-            username: this.state.username.value,
-            password: this.state.password.value
-        };
-        signup(signupRequest)
-        .then(response => {
-            notification.success({
-                message: 'Online shop',
-                description: "Спасибо! Вы были успешно зарегистрированы. Пожалуйста выполните вход чтобы продолжить!",
-            });          
-            this.props.history.push("/login");
-        }).catch(error => {
-            notification.error({
-                message: 'Online shop',
-                description: error.message || 'Извините! Что-то пошло не так. Пожалуйста, попробуйте ещё ращ!'
-            });
-        });
-    }
-
-    isFormInvalid() {
-        return !(this.state.name.validateStatus === 'success' &&
-            this.state.username.validateStatus === 'success' &&
-            this.state.email.validateStatus === 'success' &&
-            this.state.password.validateStatus === 'success'
-        );
-    }
-
     render() {
+        const AntWrappedLoginForm = Form.create()(LoginForm)
         return (
-            <div className="signup-container">
-                <h1 className="page-title">Регистрация</h1>
-                <div className="signup-content">
-                    <Form onSubmit={this.handleSubmit} className="signup-form">
-                        <FormItem
-                            label="Полное имя"
-                            validateStatus={this.state.name.validateStatus}
-                            help={this.state.name.errorMsg}>
-                            <Input
-                                size="large"
-                                name="name"
-                                autoComplete="off"
-                                placeholder="Введите ваше полное имя(имя + фамилия)"
-                                value={this.state.name.value} 
-                                onChange={(event) => this.handleInputChange(event, this.validateName)} />    
-                        </FormItem>
-                        <FormItem label="Логин"
-                            hasFeedback
-                            validateStatus={this.state.username.validateStatus}
-                            help={this.state.username.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="username" 
-                                autoComplete="off"
-                                placeholder="Придумайте уникальный логин"
-                                value={this.state.username.value} 
-                                onBlur={this.validateUsernameAvailability}
-                                onChange={(event) => this.handleInputChange(event, this.validateUsername)} />    
-                        </FormItem>
-                        <FormItem 
-                            label="Email"
-                            hasFeedback
-                            validateStatus={this.state.email.validateStatus}
-                            help={this.state.email.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="email" 
-                                type="email" 
-                                autoComplete="off"
-                                placeholder="Ваш email"
-                                value={this.state.email.value} 
-                                onBlur={this.validateEmailAvailability}
-                                onChange={(event) => this.handleInputChange(event, this.validateEmail)} />    
-                        </FormItem>
-                        <FormItem 
-                            label="Пароль"
-                            validateStatus={this.state.password.validateStatus}
-                            help={this.state.password.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="password" 
-                                type="password"
-                                autoComplete="off"
-                                placeholder="Пароль не менее 6 символов"
-                                value={this.state.password.value} 
-                                onChange={(event) => this.handleInputChange(event, this.validatePassword)} />    
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" 
-                                htmlType="submit" 
-                                size="large" 
-                                className="signup-form-button"
-                                disabled={this.isFormInvalid()}>Зарегистрироваться</Button>
-                            Уже зарегистрированы? <Link to="/login">Войдите сейчас!</Link>
-                        </FormItem>
-                    </Form>
+            <div className="login-container">
+                <div>
+                    <img alt="Logo" src={logo} className="site-main-logo"/>
+                </div>
+                <h1 className="page-title">Вход или регистрация</h1>
+                <div className="login-content">
+                    <AntWrappedLoginForm history={this.props.history} onLogin={this.props.onLogin}/>
                 </div>
             </div>
         );
     }
+}
 
-    // Validation Functions
-
-    validateName = (name) => {
-        if(name.length < NAME_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Имя пользователя слишком короткое (Минимум ${NAME_MIN_LENGTH} символов требуется.)`
-            }
-        } else if (name.length > NAME_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Имя пользователя слишком длинное (Максимум ${NAME_MAX_LENGTH} символов допустимо.)`
-            }
-        } else {
-            return {
-                validateStatus: 'success',
-                errorMsg: null,
-              };            
-        }
+class LoginForm extends Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.requestCodeAgain = this.requestCodeAgain.bind(this);
+        this.state = {
+            showSmsLayout: false,
+            smsCode: '',
+            phone: null
+        };
     }
 
-    validateEmail = (email) => {
-        if(!email) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email не может быть пустым'
-            }
-        }
-
-        const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
-        if(!EMAIL_REGEX.test(email)) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email некорректен'
-            }
-        }
-
-        if(email.length > EMAIL_MAX_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Email слишком длинный (Максимум ${EMAIL_MAX_LENGTH} символов допустимо)`
-            }
-        }
-
-        return {
-            validateStatus: null,
-            errorMsg: null
-        }
+    handleChange(event) {
+        this.setState({smsCode: event.target.value}, this.checkSmsCode);
     }
 
-    validateUsername = (username) => {
-        if(username.length < USERNAME_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Логин слишком короткий (Минимум ${USERNAME_MIN_LENGTH} символов требуется)`
-            }
-        } else if (username.length > USERNAME_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Логин слишком длинный (Максимум ${USERNAME_MAX_LENGTH} символов требуется)`
-            }
-        } else {
-            return {
-                validateStatus: null,
-                errorMsg: null
-            }
-        }
-    }
-
-    validateUsernameAvailability() {
-        // First check for client side errors in username
-        const usernameValue = this.state.username.value;
-        const usernameValidation = this.validateUsername(usernameValue);
-
-        if(usernameValidation.validateStatus === 'error') {
-            this.setState({
-                username: {
-                    value: usernameValue,
-                    ...usernameValidation
+    checkSmsCode() {
+        if (this.state.smsCode.length >= 4) {
+            this.props.form.validateFields((err, values) => {
+                if (!err) {
+                    const signupRequest = Object.assign({}, values);
+                    signup(signupRequest)
+                        .then(response => {
+                            localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                            this.redirectToProfile(response.userResponse.id);
+                        }).catch(error => {
+                        notification.error({
+                            message: 'De/Li',
+                            description: error.message || 'Извините! Что-то пошло не так. Пожалуйста, попробуйте ещё раз!'
+                        });
+                    });
                 }
             });
-            return;
         }
+    }
 
-        this.setState({
-            username: {
-                value: usernameValue,
-                validateStatus: 'validating',
-                errorMsg: null
-            }
-        });
+    redirectToProfile = (userId) => {
+        this.props.history.push(`/users/${userId}/profile`);
+        window.location.reload();
+    };
 
-        checkUsernameAvailability(usernameValue)
-        .then(response => {
-            if(response.available) {
-                this.setState({
-                    username: {
-                        value: usernameValue,
-                        validateStatus: 'success',
-                        errorMsg: null
-                    }
-                });
-            } else {
-                this.setState({
-                    username: {
-                        value: usernameValue,
-                        validateStatus: 'error',
-                        errorMsg: 'This username is already taken'
-                    }
-                });
-            }
-        }).catch(error => {
-            // Marking validateStatus as success, Form will be recchecked at server
-            this.setState({
-                username: {
-                    value: usernameValue,
-                    validateStatus: 'success',
-                    errorMsg: null
-                }
+    requestCodeAgain(event, phone) {
+        event.preventDefault();
+        requestSmsCode({phone: this.state.phone})
+            .then().catch(error => {
+            notification.error({
+                message: 'De/Li',
+                description: error.message || 'Извините! Что-то пошло не так. Пожалуйста, попробуйте ещё раз!'
             });
         });
+        this.setState({showSmsLayout: true});
     }
 
-    validateEmailAvailability() {
-        // First check for client side errors in email
-        const emailValue = this.state.email.value;
-        const emailValidation = this.validateEmail(emailValue);
-
-        if(emailValidation.validateStatus === 'error') {
-            this.setState({
-                email: {
-                    value: emailValue,
-                    ...emailValidation
-                }
-            });    
-            return;
-        }
-
-        this.setState({
-            email: {
-                value: emailValue,
-                validateStatus: 'validating',
-                errorMsg: null
-            }
-        });
-
-        checkEmailAvailability(emailValue)
-        .then(response => {
-            if(response.available) {
-                this.setState({
-                    email: {
-                        value: emailValue,
-                        validateStatus: 'success',
-                        errorMsg: null
-                    }
+    handleSubmit(event) {
+        event.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                const smsRequest = Object.assign({}, values);
+                requestSmsCode(smsRequest)
+                    .then().catch(error => {
+                    notification.error({
+                        message: 'De/Li',
+                        description: error.message || 'Извините! Что-то пошло не так. Пожалуйста, попробуйте ещё раз!'
+                    });
                 });
-            } else {
-                this.setState({
-                    email: {
-                        value: emailValue,
-                        validateStatus: 'error',
-                        errorMsg: 'This Email is already registered'
-                    }
-                });
+                this.setState({showSmsLayout: true, phone: smsRequest.phone});
             }
-        }).catch(error => {
-            // Marking validateStatus as success, Form will be recchecked at server
-            this.setState({
-                email: {
-                    value: emailValue,
-                    validateStatus: 'success',
-                    errorMsg: null
-                }
-            });
         });
     }
 
-    validatePassword = (password) => {
-        if(password.length < PASSWORD_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Пароль слишком короткий (минимум ${PASSWORD_MIN_LENGTH} символов требуется.)`
-            }
-        } else if (password.length > PASSWORD_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Пароль слишком длинный (максимум ${PASSWORD_MAX_LENGTH} символов допустимо.)`
-            }
-        } else {
-            return {
-                validateStatus: 'success',
-                errorMsg: null,
-            };            
-        }
-    }
 
+    render() {
+        const {getFieldDecorator} = this.props.form;
+        return (
+
+            <Form onSubmit={this.handleSubmit} className="login-form">
+                <FormItem label="Номер телефона">
+                    {getFieldDecorator('phone', {
+                        rules: [{required: true, message: 'Пожалуйста, введите ваш номер телефона!'}],
+                    })(
+                        <Input
+                            prefix={<Icon type="phone"/>}
+                            size="large" addonBefore="+7"
+                            name="phone" maxLength="10"
+                            placeholder="___ _______"/>
+                    )}
+                </FormItem>
+                {
+                    this.state.showSmsLayout ? <FormItem id="smsCodeLayout" label="Код из SMS">
+                        {getFieldDecorator('smsCode', {
+                            rules: [{required: true, message: 'Укажите код из SMS!'}],
+                        })(
+                            <Input onChange={this.handleChange}
+                                   size="large"
+                                   name="smsCode" value={this.state.smsCode.value}
+                            />
+                        )}
+                        <Timer phone={this.state.phone}/>
+                    </FormItem> : <FormItem>
+                        <Button type="primary" htmlType="submit" size="large" className="login-form-button">Получить код из SMS</Button>
+                    </FormItem>
+                }
+
+                Или <Link to="/login">войдите с помощью пароля!</Link>
+            </Form>
+        );
+    }
 }
 
 export default Signup;

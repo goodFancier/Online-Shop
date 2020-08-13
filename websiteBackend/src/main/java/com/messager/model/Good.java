@@ -1,150 +1,155 @@
 package com.messager.model;
 
 import com.messager.model.audit.DateAudit;
-import com.messager.model.enumdto.GoodChangeable;
-import org.hibernate.annotations.ColumnDefault;
+import com.messager.model.retailer.Retailer;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 public class Good extends DateAudit
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		public Good()
+		{
+		}
 
-    private String name;
+		public Good(String name, BigDecimal currentPrice, byte[] image, String description, Retailer retailer, String internalCode)
+		{
+				this.id = id;
+				this.name = name;
+				this.currentPrice = currentPrice;
+				this.image = image;
+				this.description = description;
+				this.retailer = retailer;
+				this.internalCode = internalCode;
+		}
 
-    private String oldPrice;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
 
-    private String currentPrice;
+		private String internalCode;
 
-    private byte[] image;
+		private String name;
 
-    @Transient
-    private String imageUrl;
+		private BigDecimal currentPrice;
 
-    private String producer;
+		@Transient
+		private String imageUrl;
 
-    @Lob
-    @Column
-    private String description;
+		@Transient
+		private Boolean isAddToBucket;
 
-    private String guaranteeTime;
+		@Lob
+		private byte[] image;
 
-    private String yearOfProduced;
+		@Lob
+		@Column
+		private String description;
 
-    @Column(nullable = false, columnDefinition = "enum('CHANGEABLE','UNCHANGEABLE') default 'CHANGEABLE'")
-    @Enumerated(EnumType.STRING)
-    private GoodChangeable isChangeable;
+		@ManyToOne(optional = false, cascade = CascadeType.MERGE)
+		@JoinColumn(name = "retailers_id")
+		private Retailer retailer;
 
-    public String getName()
-    {
-        return name;
-    }
+		private Boolean isOutdated = false;
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+		public String getName()
+		{
+				return name;
+		}
 
-    public Long getId()
-    {
-        return id;
-    }
+		public void setName(String name)
+		{
+				this.name = name;
+		}
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
+		public Long getId()
+		{
+				return id;
+		}
 
-    public String getOldPrice()
-    {
-        return oldPrice;
-    }
+		public void setId(Long id)
+		{
+				this.id = id;
+		}
 
-    public void setOldPrice(String oldPrice)
-    {
-        this.oldPrice = oldPrice;
-    }
+		public BigDecimal getCurrentPrice()
+		{
+				return currentPrice;
+		}
 
-    public String getCurrentPrice()
-    {
-        return currentPrice;
-    }
+		public void setCurrentPrice(BigDecimal currentPrice)
+		{
+				this.currentPrice = currentPrice;
+		}
 
-    public void setCurrentPrice(String currentPrice)
-    {
-        this.currentPrice = currentPrice;
-    }
+		public byte[] getImage()
+		{
+				return image;
+		}
 
-    public String getImageUrl()
-    {
-        return imageUrl;
-    }
+		public void setImage(byte[] image)
+		{
+				this.image = image;
+		}
 
-    public void setImageUrl(String imageUrl)
-    {
-        this.imageUrl = imageUrl;
-    }
+		public String getDescription()
+		{
+				return description;
+		}
 
-    public byte[] getImage()
-    {
-        return image;
-    }
+		public void setDescription(String description)
+		{
+				this.description = description;
+		}
 
-    public void setImage(byte[] image)
-    {
-        this.image = image;
-    }
+		public Retailer getRetailer()
+		{
+				return retailer;
+		}
 
-    public String getDescription()
-    {
-        return description;
-    }
+		public void setRetailer(Retailer retailer)
+		{
+				this.retailer = retailer;
+		}
 
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+		public String getInternalCode()
+		{
+				return internalCode;
+		}
 
-    public String getProducer()
-    {
-        return producer;
-    }
+		public void setInternalCode(String internalCode)
+		{
+				this.internalCode = internalCode;
+		}
 
-    public void setProducer(String producer)
-    {
-        this.producer = producer;
-    }
+		public Boolean getOutdated()
+		{
+				return isOutdated;
+		}
 
-    public String getGuaranteeTime()
-    {
-        return guaranteeTime;
-    }
+		public void setOutdated(Boolean outdated)
+		{
+				isOutdated = outdated;
+		}
 
-    public void setGuaranteeTime(String guaranteeTime)
-    {
-        this.guaranteeTime = guaranteeTime;
-    }
+		public String getImageUrl()
+		{
+				return imageUrl;
+		}
 
-    public String getYearOfProduced()
-    {
-        return yearOfProduced;
-    }
+		public void setImageUrl(String imageUrl)
+		{
+				this.imageUrl = imageUrl;
+		}
 
-    public void setYearOfProduced(String yearOfProduced)
-    {
-        this.yearOfProduced = yearOfProduced;
-    }
+		public Boolean getAddToBucket()
+		{
+			return isAddToBucket;
+		}
 
-    public String getIsChangeable()
-    {
-        return isChangeable.getTitle();
-    }
-
-    public void setIsChangeable(GoodChangeable isChangeable)
-    {
-        this.isChangeable = isChangeable;
-    }
+		public void setAddToBucket(Boolean addToBucket)
+		{
+			isAddToBucket = addToBucket;
+		}
 }

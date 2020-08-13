@@ -1,54 +1,139 @@
 import React, {Component} from 'react'
 import './Catalogue.css';
-import {Table, Card, Icon, List, Button, notification, Carousel, Row} from 'antd';
-import {getCatalogueOfGoods, addToBucket, loadPublicOffers} from "../util/APIUtils";
+import {Button, Card, List, notification, Row} from 'antd';
+import {addToBucket, loadPublicOffers, getGoodsByRetailers} from "../util/APIUtils";
 import {formatDate} from "../util/Helpers";
+import InfiniteScroll from "react-infinite-scroller";
+import Spin from "antd/es/spin";
+import Text from "antd/es/typography/Text";
 
-const {Column, ColumnGroup} = Table;
 const {Meta} = Card;
 
-const IconText = ({type, text}) => (
-    <span>
-    <Icon type={type} style={{marginRight: 8}}/>
-        {text}
-  </span>
-);
-
 class Catalogue extends Component {
-    state = {
-        goods: [],
-        publicOffers: []
-    };
-
     constructor(props) {
         super(props);
-        this.initCatalogueOfGoods();
+        this.state = {
+            retailerId: props.match.params.retailerId,
+            goods: [],
+            publicOffers: [],
+            totalElements: 0,
+            size: 0,
+            totalPages: 0,
+            page: 0,
+            pagination: 0,
+            loading: false,
+            hasMore: true,
+            last: false,
+        };
         this.addToBucketEvent = this.addToBucketEvent.bind(this);
         this.loadPublicOffers();
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.initCatalogueOfGoods = this.initCatalogueOfGoods.bind(this);
+        this.handleInfiniteOnLoad = this.handleInfiniteOnLoad.bind(this);
+        this.componentDidUpdate = this.componentDidUpdate.bind(this);
     }
 
-    initCatalogueOfGoods() {
-        let goods = getCatalogueOfGoods();
+    componentWillUnmount() {
+        this.props.resetFilterValue();
+    }
+
+    componentDidMount() {
+        const retailerId = this.props.match.params.retailerId;
+        this.setState({
+            retailerId: retailerId
+        });
+        this.initCatalogueOfGoods(retailerId, {
+            page: this.state.page,
+        }, this.props.filterValue);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.filterValue !== this.props.filterValue) {
+            this.setState({totalElements: 0, size: 0, totalPages: 0, page: 0, pagination: 0, hasMore: true, last: false, goods: []}, function () {
+                const retailerId = this.props.match.params.retailerId;
+                if (this.props.filterValue != null)
+                    this.initCatalogueOfGoods(retailerId, {
+                        page: this.state.page,
+                    }, this.props.filterValue);
+            });
+        }
+    }
+
+    initCatalogueOfGoods(retailerId, params = {}, filterValue) {
+        this.setState({loading: true});
+        let goods = filterValue != null ? getGoodsByRetailers(retailerId, params.page, 10, params.sortField, params.sortOrder, filterValue) :
+            getGoodsByRetailers(retailerId, params.page, 10, params.sortField, params.sortOrder, 0);
+        this.props.initCatalogueRetailer(retailerId);
         goods
             .then(response => {
-                this.setState(this.initGoods(response));
+                this.setState({
+                    loading: false,
+                    totalElements: response.totalElements,
+                    size: response.size,
+                    totalPages: response.totalPages,
+                    page: response.page,
+                    last: response.last
+                });
+                this.setState(this.initGoods(response.content));
             });
     }
 
+    handleInfiniteOnLoad = () => {
+        this.setState({
+            loading: true,
+        });
+        if (this.state.last) {
+            this.setState({
+                hasMore: false,
+                loading: false,
+            });
+            return;
+        }
+        this.initCatalogueOfGoods(this.state.retailerId, {
+            page: this.state.page + 1,
+        }, this.props.filterValue);
+    };
+
     initGoods(response) {
         for (let i = 0; i < response.length; i++) {
-            response[i].createdAt = formatDate(response[i].createdAt.epochSecond);
+            if (response[i].createdAt != null)
+                response[i].createdAt = formatDate(response[i].createdAt.epochSecond);
             this.state.goods.push(response[i]);
             this.setState({goods: this.state.goods})
         }
     }
 
+    redirectToLogin = () => {
+        this.props.history.push("/login");
+    };
+
     addToBucketEvent(event, goodId) {
         event.preventDefault();
-        addToBucket(this.props.currentUser.id, goodId).then(response => {
-        }).catch(error => {
-        });
+        if (this.props.currentUser == null) {
+            notification.error({
+                message: 'De/Li',
+                description: 'Необходимо выполнить вход в личный кабинет!'
+            });
+            this.redirectToLogin();
+        } else {
+            const goodList = [...this.state.goods];
+            addToBucket(goodId).then(response => {
+            }).catch(error => {
+            });
+            goodList.forEach(item => {
+                if (item.id == goodId) {
+                    item.addToBucket = true;
+                }
+            });
+            this.setState({
+                goods: goodList
+            });
+        }
     }
+
+    redirectToBucket = () => {
+        this.props.history.push("/shopBucket");
+    };
 
     redirectToGoodPage(event, goodId) {
         event.preventDefault();
@@ -60,21 +145,6 @@ class Catalogue extends Component {
             this.initOffersResponseValues(response);
         }).catch(error => {
         });
-    }
-
-    redirectToOfferPage(event, offerId) {
-        event.preventDefault();
-        this.props.history.push(`/offer/${offerId}`);
-    }
-
-    getBooklets() {
-        let bookletList = [];
-        for (let i = 0; i < this.state.publicOffers.length; i++) {
-            bookletList.push(<div className="board-row"><img src={this.state.publicOffers[i].imageUrl}
-                                                             onClick={(e) => this.redirectToOfferPage(e, this.state.publicOffers[i].id)}/>
-            </div>);
-        }
-        return bookletList;
     }
 
     initOffersResponseValues(response) {
@@ -92,40 +162,66 @@ class Catalogue extends Component {
     render() {
 
         return (
-            <Row>
-                <Carousel autoplay swipe={true} arrows={true}>
-                    {this.getBooklets()}
-                </Carousel>
-                <List className="catalogue-good-list"
-                      grid={{
-                          gutter: 1, xs: 1,
-                          sm: 1,
-                          md: 2,
-                          lg: 2,
-                          xl: 3,
-                          xxl: 4,
-                      }}
-                      dataSource={this.state.goods}
-                      renderItem={item => (
-                          <List.Item
-                              key={item.id}
-                          >
-                              <Card className="advertisement" hoverable
-                                    style={{width: 240}}
-                                    cover={<img alt="example" align="middle" onClick={(e) => this.redirectToGoodPage(e, item.id)}
-                                                src={item.imageUrl}/>}
-                                    style={{width: 300, marginTop: 16}}
-                                    actions={[
-                                        <button onClick={(e) => this.addToBucketEvent(e, item.id)}>Добавить в
-                                            корзину</button>
-                                    ]}
-                              >
-                                  <Meta title={item.name} onClick={(e) => this.redirectToGoodPage(e, item.id)}
-                                        description={<div>Цена: {item.currentPrice}$</div>}/>
-                              </Card>
-                          </List.Item>
-                      )}
-                />
+            <Row className="catalogue-item-list">
+                <InfiniteScroll
+                    initialLoad={false}
+                    pageStart={0}
+                    loadMore={this.handleInfiniteOnLoad}
+                    hasMore={!this.state.loading && this.state.hasMore}
+                > {this.state.goods.length > 0 ?
+                    <List
+                        grid={{
+                            gutter: 1, xs: 1,
+                            sm: 1,
+                            md: 2,
+                            lg: 2,
+                            xl: 3,
+                            xxl: 4,
+                        }}
+                        dataSource={this.state.goods}
+                        renderItem={item => (
+                            <List.Item
+                                key={item.id}
+                            >
+                                <Card hoverable
+                                      cover={<div className="b-retailer__logo b-retailer__logo_loaded_true" align="center">
+                                          <img alt="Logo" align="center"
+                                               src={item.imageUrl}
+                                               className="b-image__root"/>
+                                      </div>}
+                                      style={{width: 300}}
+                                >
+                                    <Meta title={item.name}
+                                          description={
+                                              <div className="item-price-label">
+                                                  <div className="item-price">
+                                                      {item.currentPrice} ₽
+                                                  </div>
+                                                  <div>
+                                                      {item.addToBucket == 1 ?
+                                                          <Button type="primary" className="green-button" block onClick={this.redirectToBucket}>
+                                                              В корзине
+                                                          </Button>
+                                                          :
+                                                          <Button type="primary" block onClick={(e) => this.addToBucketEvent(e, item.id)}>
+                                                              В корзину
+                                                          </Button>
+                                                      }
+
+                                                  </div>
+                                              </div>
+                                          }/>
+                                </Card>
+                            </List.Item>
+                        )}
+                    >
+                        {this.state.loading && this.state.hasMore && (
+                            <div className="demo-loading-container">
+                                <Spin/>
+                            </div>
+                        )}
+                    </List> : <Text type="secondary">Товаров с заданным фильтром не найдено</Text>}
+                </InfiniteScroll>
             </Row>
         )
     }

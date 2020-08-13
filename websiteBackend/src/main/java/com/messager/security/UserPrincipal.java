@@ -14,9 +14,15 @@ import java.util.stream.Collectors;
 public class UserPrincipal implements UserDetails {
     private Long id;
 
+    private String surname;
+
     private String name;
 
+    private String lastname;
+
     private String username;
+
+    private String city;
 
     @JsonIgnore
     private String email;
@@ -26,13 +32,16 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String surname, String name, String lastname, String username, String email, String password, Collection<? extends GrantedAuthority> authorities, String city) {
         this.id = id;
+        this.surname = surname;
         this.name = name;
+        this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.city = city;
     }
 
     public static UserPrincipal create(User user) {
@@ -42,11 +51,14 @@ public class UserPrincipal implements UserDetails {
 
         return new UserPrincipal(
                 user.getId(),
+                user.getSurname(),
                 user.getName(),
+                user.getLastname(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities
+                authorities,
+                user.getCity()
         );
     }
 
@@ -60,6 +72,18 @@ public class UserPrincipal implements UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     @Override

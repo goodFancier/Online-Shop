@@ -7,10 +7,6 @@ import {Route, withRouter, Redirect} from "react-router-dom";
 
 
 class Usermenu extends Component {
-    showSettings(event) {
-        event.preventDefault();
-    }
-
     constructor(props) {
         super(props);
         this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -21,11 +17,10 @@ class Usermenu extends Component {
             this.props.onLogout();
         }
         if (key === "profile") {
-            this.props.history.push(`/users/${this.props.currentUser.username}/profile`);
+            this.props.history.push(`/users/${this.props.currentUser.id}/profile`);
         }
     }
 
-    //TODO: Сделать кастомные картинки, а не задавать их жестко в коде
     render() {
        return <UserDropdownMenu
             currentUser={this.props.currentUser}

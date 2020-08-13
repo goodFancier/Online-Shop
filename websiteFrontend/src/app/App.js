@@ -22,6 +22,11 @@ import {Layout, notification} from 'antd';
 import Offers from "../offers/Offers";
 import Good from "../catalogue/Good";
 import OfferPage from "../offers/OfferPage";
+import PurchaseConstructor from "../user/purchaseConstructor/PurchaseConstructor";
+import SummaryPage from "../order/summary/SummaryPage";
+import RetailersList from "../retailers/RetailersList";
+import OrderMain from "../order/orderList/OrderMain";
+import Sidebar from "../common/Sidebar";
 
 const {Content} = Layout;
 
@@ -31,12 +36,16 @@ class App extends Component {
         this.state = {
             currentUser: null,
             isAuthenticated: false,
-            isLoading: false
-        }
+            isLoading: false,
+            retailer: null,
+            filterValue: null
+        };
         this.handleLogout = this.handleLogout.bind(this);
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
-
+        this.initCatalogueRetailer = this.initCatalogueRetailer.bind(this);
+        this.filterGoodsBySearch = this.filterGoodsBySearch.bind(this);
+        this.resetFilterValue = this.resetFilterValue.bind(this);
         notification.config({
             placement: 'topRight',
             top: 70,
@@ -55,7 +64,7 @@ class App extends Component {
                     isAuthenticated: true,
                     isLoading: false
                 });
-            }).catch(error => {
+            }).catch(() => {
             this.setState({
                 isLoading: false
             });
@@ -77,18 +86,31 @@ class App extends Component {
         this.props.history.push(redirectTo);
 
         notification[notificationType]({
-            message: 'AskLion',
+            message: 'De/Li',
             description: description,
         });
     }
 
     handleLogin() {
         notification.success({
-            message: 'AskLion',
-            description: "You're successfully logged in.",
+            message: 'De/Li',
+            description: "Спасибо! Вы были успешно авторизированы!",
         });
         this.loadCurrentUser();
         this.props.history.push("/");
+    }
+
+    initCatalogueRetailer(retailerId) {
+        this.setState({retailer: retailerId});
+    }
+
+    filterGoodsBySearch(filter) {
+        this.setState({filterValue: filter});
+        this.props.history.push(`/catalogue/${this.state.retailer}`);
+    }
+
+    resetFilterValue() {
+        this.setState({filterValue: null});
     }
 
     render() {
@@ -97,38 +119,54 @@ class App extends Component {
         }
         return (
             <Layout className="app-container">
-                <AppHeader isAuthenticated={this.state.isAuthenticated}
-                           currentUser={this.state.currentUser}
+                <AppHeader isAuthenticated={this.state.isAuthenticated} retailer={this.state.retailer} filterGoodsBySearch={this.filterGoodsBySearch}
+                           currentUser={this.state.currentUser} filterValue={this.state.filterValue}
                            onLogout={this.handleLogout}/>
                 <Content className="app-content">
+                    {window.innerWidth < 800 ?
+                        <Sidebar className="sidebar" currentUser={this.state.currentUser} onLogout={this.handleLogout}/> : null}
                     <div className="container">
                         <Switch>
                             <Route path="/login"
                                    render={(props) => <Login onLogin={this.handleLogin} {...props} />}/>
-                            <Route path="/signup" component={Signup}/>
+                            <Route path="/signup" render={(props) => <Signup onLogin={this.handleLogin} {...props} />}
+                            />
                             <Route path="/users/:username/profile"
                                    render={(props) => <Profile isAuthenticated={this.state.isAuthenticated}
-                                                               currentUser={this.state.currentUser} {...props}  />}>
+                                                               currentUser={this.state.currentUser} {...props}/>}>
                             </Route>
                             <Route path="/users/:username"
                                    render={(props) => <Profile {...props}  />}>
                             </Route>
                             <Route path="/shopBucket"
-                                   render={(props) => <Bucket currentUser={this.state.currentUser} {...props}    />}>
+                                   render={(props) => <Bucket currentUser={this.state.currentUser} {...props}/>}>
                             </Route>
-                            <Route path="/catalogue"
-                                   render={(props) => <Catalogue currentUser={this.state.currentUser} {...props}    />}>
+                            {/*<Route path="/catalogue"*/}
+                            {/*       render={(props) => <Catalogue currentUser={this.state.currentUser} {...props}/>}>*/}
+                            {/*</Route>*/}
+                            <Route path="/catalogue/:retailerId"
+                                   render={(props) => <Catalogue resetFilterValue={this.resetFilterValue} filterValue={this.state.filterValue} initCatalogueRetailer={this.initCatalogueRetailer} currentUser={this.state.currentUser} {...props}/>}>
                             </Route>
                             <Route path="/offers"
                                    render={(props) => <Offers  {...props} />}>
                             </Route>
                             <Route path="/good/:goodId"
-                                   render={(props) => <Good currentUser={this.state.currentUser} {...props} />}>
+                                   render={(props) => <Good currentUser={this.state.currentUser} {...props}/>}>
                             </Route>
+                            <Route path="/purchaseConstructor"
+                                   render={(props) => <PurchaseConstructor currentUser={this.state.currentUser} {...props} />}>
+                            </Route>
+                            <Route path="/order/summarypage"
+                                   render={(props) => <SummaryPage currentUser={this.state.currentUser} {...props} />}>
+                            </Route>
+                            <Route path="/order/orderList"
+                                   render={(props) => <OrderMain currentUser={this.state.currentUser} {...props}/>}/>
                             <Route path="/offer/:offerId"
-                                   render={(props) => <OfferPage currentUser={this.state.currentUser} {...props} />}/>
+                                   render={(props) => <OfferPage currentUser={this.state.currentUser} {...props}/>}/>
                             <Route exact path="/"
-                                   component={() => (<Redirect to="/catalogue"/>)}/>
+                                   component={() => (<Redirect to="/retailers"/>)}/>
+                            <Route exact path="/retailers"
+                                   render={(props) => <RetailersList currentUser={this.state.currentUser} {...props}/>}/>
                             <Route component={NotFound}/>
                         </Switch>
                     </div>

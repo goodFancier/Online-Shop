@@ -58,13 +58,13 @@ class Good extends Component {
         event.preventDefault();
         if (this.props.currentUser == null) {
             notification.error({
-                message: 'Online shop',
+                message: 'De/Li',
                 description: 'Необходимо выполнить вход в личный кабинет!'
             })
             this.redirectToLogin();
         }
         else
-            addToBucket(this.props.currentUser.id, goodId).then(response => {
+            addToBucket(goodId).then(response => {
             }).catch(error => {
             });
     }

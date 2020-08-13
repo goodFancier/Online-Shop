@@ -1,9 +1,7 @@
 package com.messager.controller;
 
-import com.messager.model.Good;
 import com.messager.repository.OffersRepository;
 import com.messager.model.Offer;
-import com.messager.utils.GoodUtils;
 import com.messager.utils.OfferUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +22,6 @@ public class OfferController
     @Autowired
     private OfferUtils offerUtils;
 
-    @Autowired
-    private GoodUtils goodUtils;
-
     @GetMapping("/getPublicOffers")
     public List<Offer> getPublicOffers()
     {
@@ -40,7 +35,7 @@ public class OfferController
     {
         Offer offer = offersRepository.findOfferById(Long.valueOf(offerId));
         offerUtils.initOfferImages(Arrays.asList(offer));
-        offer.setGoodList(goodUtils.initGoodImages(offer.getGoodList()));
+        offer.setGoodList(offer.getGoodList());
         return offer;
     }
 }
